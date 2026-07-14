@@ -23,6 +23,7 @@ worksheet.html        Printable one-page design worksheet
 checklists.html       Printable build gates, preflight, and maiden-flight plan
 rc-design.ipynb       The sizing chain as a Python notebook (opens in Google Colab)
 hangar.css            Shared styles
+downloads/            The original 66-page manual (PDF + editable PowerPoint)
 ```
 
 Print any sheet with the browser's Print command — navigation hides itself automatically.
