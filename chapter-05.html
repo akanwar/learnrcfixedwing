@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><rect width=%27100%27 height=%27100%27 rx=%2718%27 fill=%27%2314223f%27/><path d=%27M50 18 L56 34 L88 46 L88 56 L56 52 L54 74 L66 82 L66 88 L50 84 L34 88 L34 82 L46 74 L44 52 L12 56 L12 46 L44 34 Z%27 fill=%27%232a7de1%27/></svg>">
+<title>Chapter 5 — Understand Airfoils — Learn R/C Fixed Wing</title>
+<meta name="description" content="How to choose an airfoil: Clark Y, NACA 2412, S1223, NACA 0012 and Eppler sections compared.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="hangar.css">
+</head>
+<body>
+<div class="sheet">
+<div class="frame">
+  <div class="hqbar"><a href="index.html">&#8962; The Hangar</a><div class="doc">CH 05 · UNDERSTAND AIRFOILS</div></div>
+  <div class="kicker">Chapter 05</div>
+  <h1>Understand Airfoils</h1>
+  <p class="lead">The wing section shapes the pressure field, the lift range, the stall manners, and even how you build. Choose it like an engineer, not a fan.</p>
+
+<h2>How designers actually choose</h2>
+<p>Nobody asks &ldquo;which airfoil is best?&rdquo; They ask: how heavy is the plane, how fast will it cruise,
+how slowly must it land, will it fly inverted, how easy must it be to build, and how small is the chord
+(which sets Reynolds number)? Answer those, and the airfoil almost picks itself. Choose the section
+<b>after</b> mission, mass, and wing loading are known &mdash; never before.</p>
+<div class="tip"><b>One big idea:</b> the wing pushes air down, so the air pushes the wing up (Newton&rsquo;s
+third law). The airfoil decides how efficiently that trade happens, over what speed range, and how gently
+it fails at the stall.</div>
+
+<h2>Reading a section</h2>
+<p><b>Chord line</b>: straight line, leading edge to trailing edge. <b>Camber</b>: the curvature of the
+<i>mean</i> line between upper and lower surfaces &mdash; a symmetric section has curved surfaces but zero
+camber. <b>Thickness</b>: the max gap between surfaces; thick = room for a strong spar. Camber buys lift at
+low angles; its bill is a nose-down pitching moment the tail must carry.</p>
+
+<h2>Five families worth knowing</h2>
+<table>
+<tr><th>Section</th><th>Geometry</th><th>Best for</th><th>Watch out</th></tr>
+<tr><td><b>Clark Y</b></td><td>11.7% thick, 3.4% camber, near-flat bottom</td><td>High-wing trainers, relaxed sport; the flat bottom makes building easy</td><td>Mediocre inverted; draggy when pushed fast</td></tr>
+<tr><td><b>NACA 2412</b></td><td>2% camber at 40%, 12% thick &mdash; the name IS the geometry</td><td>The balanced all-rounder: sport, scale, mild aerobatics</td><td>Curved bottom needs jigs or rib tabs</td></tr>
+<tr><td><b>Selig S1223</b></td><td>8.7% camber(!), 12.1% thick</td><td>Slow flight and heavy lifting at low Re; STOL</td><td>Big nose-down moment; undercamber is hard to build and cover; draggy at speed</td></tr>
+<tr><td><b>NACA 0012</b></td><td>Symmetric, 12% thick</td><td>Aerobatics, and nearly every tail surface ever built</td><td>Zero lift at zero alpha &mdash; it always needs an angle to work</td></tr>
+<tr><td><b>Eppler E387</b></td><td>9.1% thick, 3.8% camber, low-Re design</td><td>Gliders, efficient cruisers</td><td>&ldquo;Eppler&rdquo; is a family, not one shape &mdash; E423 and E472 are entirely different animals. Always cite the number</td></tr>
+</table>
+<p class="dim">Geometry from the <a href="https://m-selig.ae.illinois.edu/ads/coord_database.html">UIUC
+Airfoil Coordinates Database</a>. Descriptions are practical R/C tendencies, not wind-tunnel truth at your
+model&rsquo;s Reynolds number &mdash; UIUC&rsquo;s low-speed test volumes are the reference when it matters.</p>
+<details class="yt"><summary><span class="yl">Your turn</span>Your trainer cruises at Re &asymp; 1.8&times;10&#8309;. Rank Clark Y, S1223, and NACA 0012 for it &mdash; and what changes if you halve the chord?</summary><div class="ans">For a trainer at that Re: <b>Clark Y</b> first (docile, buildable), 0012 pointless (no camber = no free lift), S1223 overkill (trim drag, build pain). Halving the chord halves Re to &asymp;90k &mdash; trouble-zone territory where the S1223/E387 class of low-Re sections earns its keep.</div></details>
+
+<h2>The polite fiction of the lift curve</h2>
+<p>All these sections obey the same story: lift rises nearly linearly with angle of attack
+(&asymp;0.08&ndash;0.1 per degree), peaks at C<sub>L</sub>max, then separates. Camber slides the line left
+(lift at zero angle); thickness and Reynolds number shape how sharp the peak is. The full curve, with the
+stall annotated, lives on the <a href="mathshelf.html">math shelf</a>.</p>
+
+  <div class="caveat"><b>Accuracy note</b>
+This guide was drafted with AI assistance and reviewed by a human, but it will contain mistakes.
+Treat every number as a starting point, not gospel: verify against the linked references and your
+own measurements before you cut material or fly. Spotted an inaccuracy? Please open an issue or
+pull request at <a href="https://github.com/akanwar/learnrcfixedwing">github.com/akanwar/learnrcfixedwing</a>
+— corrections are exactly why this lives on GitHub.</div>
+
+  <div class="pager"><a href="chapter-04.html"><span class="lab">&larr; Previous</span>Chapter 4 — The Worked Trainer</a><a class="next" href="chapter-06.html"><span class="lab">Next &rarr;</span>Chapter 6 — Build the Structure</a></div>
+  <div class="foot">Content CC BY 4.0 &middot; Code MIT &middot; <a href="https://github.com/akanwar/learnrcfixedwing">github.com/akanwar/learnrcfixedwing</a></div>
+</div>
+</div>
+</body>
+</html>

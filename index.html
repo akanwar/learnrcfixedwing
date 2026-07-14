@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><rect width=%27100%27 height=%27100%27 rx=%2718%27 fill=%27%2314223f%27/><path d=%27M50 18 L56 34 L88 46 L88 56 L56 52 L54 74 L66 82 L66 88 L50 84 L34 88 L34 82 L46 74 L44 52 L12 56 L12 46 L44 34 Z%27 fill=%27%232a7de1%27/></svg>">
+<title>Learn R/C Fixed Wing — The Hangar</title>
+<meta name="description" content="Design, build, and fly your own R/C airplane — a calculation-backed guide from mission to maiden flight, with an interactive design calculator.">
+<meta property="og:title" content="Learn R/C Fixed Wing — The Hangar">
+<meta property="og:description" content="From mission to maiden flight: size the wing, balance the tail, build straight, and fly — with the math shown, not hidden.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="hangar.css">
+</head>
+<body>
+<div class="sheet">
+<div class="frame">
+
+  <div class="hqbar">
+    <div class="doc">DWG NO. RC-FW-001 · REV A · SHEET 1</div>
+    <div class="doc">THE HANGAR</div>
+  </div>
+
+  <div class="kicker">Learn R/C Fixed Wing</div>
+  <h1>From mission to<br>maiden flight</h1>
+  <div class="progress" id="progress" hidden></div>
+  <p class="lead">Welcome to the hangar. This is a working guide to designing, building, and flying your own
+  fixed-wing R/C airplane — with the math shown, not hidden. Every chapter answers one question:
+  <i>why does the airplane work, and how do you know before you fly it?</i></p>
+
+  <h2>Start here</h2>
+  <a class="card c-doc" href="flightplan.html">
+    <div class="badge"><div class="n">★</div><div class="k">Plan</div></div>
+    <div class="body"><p class="t">The Flight Plan</p><p class="d">The design loop, how the chapters connect, and the tools and materials you'll want on the bench.</p></div>
+    <div class="go">→</div>
+  </a>
+
+  <h2>The chapters, in order</h2>
+
+  <a class="card c-design" href="chapter-01.html" data-m="01">
+    <div class="badge"><div class="n">01</div><div class="k">Design</div></div>
+    <div class="body"><p class="t">Design the System</p><p class="d">Mission first. Then forces, moments, control surfaces, and why everything affects everything.</p></div>
+    <button class="done-btn" type="button" title="Sign off chapter 01" aria-label="Sign off chapter 01">✓</button>
+    <div class="go">→</div>
+  </a>
+
+  <a class="card c-design" href="chapter-02.html" data-m="02">
+    <div class="badge"><div class="n">02</div><div class="k">Wing</div></div>
+    <div class="body"><p class="t">Size the Wing</p><p class="d">Wing loading, stall speed, aspect ratio, planform, and the four angles that shape behavior.</p></div>
+    <button class="done-btn" type="button" title="Sign off chapter 02" aria-label="Sign off chapter 02">✓</button>
+    <div class="go">→</div>
+  </a>
+
+  <a class="card c-design" href="chapter-03.html" data-m="03">
+    <div class="badge"><div class="n">03</div><div class="k">Balance</div></div>
+    <div class="body"><p class="t">Tail &amp; Balance</p><p class="d">Tail volume coefficients, the neutral point, and why CG position decides whether it flies calmly or not at all.</p></div>
+    <button class="done-btn" type="button" title="Sign off chapter 03" aria-label="Sign off chapter 03">✓</button>
+    <div class="go">→</div>
+  </a>
+
+  <a class="card c-design" href="chapter-04.html" data-m="04">
+    <div class="badge"><div class="n">04</div><div class="k">Trainer</div></div>
+    <div class="body"><p class="t">The Worked Trainer</p><p class="d">A 1.5 kg trainer designed end-to-end: mass budget → wing → tail → power → dimensioned three-view.</p></div>
+    <button class="done-btn" type="button" title="Sign off chapter 04" aria-label="Sign off chapter 04">✓</button>
+    <div class="go">→</div>
+  </a>
+
+  <a class="card c-airfoil" href="chapter-05.html" data-m="05">
+    <div class="badge"><div class="n">05</div><div class="k">Airfoils</div></div>
+    <div class="body"><p class="t">Understand Airfoils</p><p class="d">How designers choose a section — and five families worth knowing: Clark Y, NACA 2412, S1223, NACA 0012, Eppler.</p></div>
+    <button class="done-btn" type="button" title="Sign off chapter 05" aria-label="Sign off chapter 05">✓</button>
+    <div class="go">→</div>
+  </a>
+
+  <a class="card c-build" href="chapter-06.html" data-m="06">
+    <div class="badge"><div class="n">06</div><div class="k">Build</div></div>
+    <div class="body"><p class="t">Build the Structure</p><p class="d">Materials, adhesives, spars and ribs, alignment, covering, and putting the weight where the balance needs it.</p></div>
+    <button class="done-btn" type="button" title="Sign off chapter 06" aria-label="Sign off chapter 06">✓</button>
+    <div class="go">→</div>
+  </a>
+
+  <a class="card c-fly" href="chapter-07.html" data-m="07">
+    <div class="badge"><div class="n">07</div><div class="k">Fly</div></div>
+    <div class="body"><p class="t">Systems, Test &amp; Fly</p><p class="d">Power and radio installation, the preflight ritual, the maiden-flight plan, and troubleshooting by symptom.</p></div>
+    <button class="done-btn" type="button" title="Sign off chapter 07" aria-label="Sign off chapter 07">✓</button>
+    <div class="go">→</div>
+  </a>
+
+  <h2>The tools</h2>
+
+  <a class="card c-tool" href="designer.html">
+    <div class="badge"><div class="n">⚙</div><div class="k">Design</div></div>
+    <div class="body"><p class="t">The Design Calculator <span class="filetag">Interactive</span></p><p class="d">Weight, speed, and span in — a live, dimensioned three-view with tail sizes, control surfaces, and honest tradeoff warnings out.</p></div>
+    <div class="go">→</div>
+  </a>
+
+  <a class="card c-math" href="mathshelf.html">
+    <div class="badge"><div class="n">Σ</div><div class="k">Math</div></div>
+    <div class="body"><p class="t">The Math Shelf</p><p class="d">Every equation with its derivation, the lift curve, induced drag, and Reynolds number — the stretch material.</p></div>
+    <div class="go">→</div>
+  </a>
+
+  <a class="card c-doc" href="worksheet.html">
+    <div class="badge"><div class="n">✎</div><div class="k">Sheet</div></div>
+    <div class="body"><p class="t">Design Worksheet <span class="filetag">Print me</span></p><p class="d">The one-page preliminary design sheet — fill every box before cutting material.</p></div>
+    <div class="go">→</div>
+  </a>
+
+  <a class="card c-doc" href="checklists.html">
+    <div class="badge"><div class="n">☑</div><div class="k">Lists</div></div>
+    <div class="body"><p class="t">Checklists <span class="filetag">Print me</span></p><p class="d">Build-stage gates, covering and alignment, preflight, and the maiden-flight plan.</p></div>
+    <div class="go">→</div>
+  </a>
+
+  <a class="card c-tool" href="https://colab.research.google.com/github/akanwar/learnrcfixedwing/blob/main/rc-design.ipynb" target="_blank" rel="noopener">
+    <div class="badge"><div class="n">⤴</div><div class="k">Colab</div></div>
+    <div class="body"><p class="t">Design Notebook <span class="filetag">Python · Colab</span></p><p class="d">The whole sizing chain as runnable Python — change one number, watch the airplane change.</p></div>
+    <div class="go">↗</div>
+  </a>
+
+  <h2>Reference shelf</h2>
+  <p class="dim" style="font-size:14px; margin-top:-4px;">The primary sources this guide leans on. They open in a new tab; go deeper whenever a chapter hooks you.</p>
+
+  <a class="card c-design" href="https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/" target="_blank" rel="noopener">
+    <div class="badge"><div class="n">⤴</div><div class="k">NASA</div></div>
+    <div class="body"><p class="t">Beginner's Guide to Aeronautics <span class="filetag">grc.nasa.gov</span></p><p class="d">Lift, drag, forces, and controls from NASA Glenn — with interactive simulators.</p></div>
+    <div class="go">→</div>
+  </a>
+  <a class="card c-math" href="https://ocw.mit.edu/courses/16-01-unified-engineering-i-ii-iii-iv-fall-2005-spring-2006/" target="_blank" rel="noopener">
+    <div class="badge"><div class="n">⤴</div><div class="k">MIT</div></div>
+    <div class="body"><p class="t">Unified Engineering 16.01 <span class="filetag">ocw.mit.edu</span></p><p class="d">The MIT course behind our tail-volume and stability rules — taught by Mark Drela of XFOIL fame.</p></div>
+    <div class="go">→</div>
+  </a>
+  <a class="card c-airfoil" href="https://m-selig.ae.illinois.edu/ads/coord_database.html" target="_blank" rel="noopener">
+    <div class="badge"><div class="n">⤴</div><div class="k">UIUC</div></div>
+    <div class="body"><p class="t">UIUC Airfoil Database <span class="filetag">m-selig.ae.illinois.edu</span></p><p class="d">Coordinates and low-Reynolds-number test data for nearly every airfoil in this guide.</p></div>
+    <div class="go">→</div>
+  </a>
+  <a class="card c-fly" href="https://www.modelaircraft.org/" target="_blank" rel="noopener">
+    <div class="badge"><div class="n">⤴</div><div class="k">AMA</div></div>
+    <div class="body"><p class="t">Academy of Model Aeronautics <span class="filetag">modelaircraft.org</span></p><p class="d">Safety code, insurance, clubs, and flying fields — read before the maiden.</p></div>
+    <div class="go">→</div>
+  </a>
+
+  <div class="caveat"><b>Accuracy note</b>
+This guide was drafted with AI assistance and reviewed by a human, but it will contain mistakes.
+Treat every number as a starting point, not gospel: verify against the linked references and your
+own measurements before you cut material or fly. Spotted an inaccuracy? Please open an issue or
+pull request at <a href="https://github.com/akanwar/learnrcfixedwing">github.com/akanwar/learnrcfixedwing</a>
+— corrections are exactly why this lives on GitHub.</div>
+
+
+  <div class="foot">Design · Build · Test · Improve — one change at a time<br>
+  Content CC BY 4.0 · Code MIT · <a href="https://github.com/akanwar/learnrcfixedwing">github.com/akanwar/learnrcfixedwing</a></div>
+
+</div>
+</div>
+<script>
+(function(){
+  var KEY = 'lrcfw-chapters-signed';
+  var done;
+  try { done = new Set(JSON.parse(localStorage.getItem(KEY) || '[]')); } catch(e){ done = new Set(); }
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.card[data-m]'));
+  var progress = document.getElementById('progress');
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(Array.from(done))); }catch(e){} }
+  function render(){
+    cards.forEach(function(c){ c.classList.toggle('is-done', done.has(c.dataset.m)); });
+    var n = cards.filter(function(c){ return done.has(c.dataset.m); }).length;
+    progress.hidden = n === 0;
+    progress.innerHTML = '<b>' + n + '</b> of ' + cards.length + ' chapters signed off' +
+      (n === cards.length ? ' · airworthiness review complete' : '');
+  }
+  cards.forEach(function(card){
+    card.querySelector('.done-btn').addEventListener('click', function(e){
+      e.preventDefault(); e.stopPropagation();
+      var m = card.dataset.m;
+      if (done.has(m)) done.delete(m); else done.add(m);
+      save(); render();
+    });
+  });
+  render();
+})();
+</script>
+</body>
+</html>

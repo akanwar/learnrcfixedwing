@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><rect width=%27100%27 height=%27100%27 rx=%2718%27 fill=%27%2314223f%27/><path d=%27M50 18 L56 34 L88 46 L88 56 L56 52 L54 74 L66 82 L66 88 L50 84 L34 88 L34 82 L46 74 L44 52 L12 56 L12 46 L44 34 Z%27 fill=%27%232a7de1%27/></svg>">
+<title>Chapter 6 — Build the Structure — Learn R/C Fixed Wing</title>
+<meta name="description" content="Materials, adhesives, spar and rib structure, alignment and weight placement.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="hangar.css">
+</head>
+<body>
+<div class="sheet">
+<div class="frame">
+  <div class="hqbar"><a href="index.html">&#8962; The Hangar</a><div class="doc">CH 06 · BUILD THE STRUCTURE</div></div>
+  <div class="kicker">Chapter 06</div>
+  <h1>Build the Structure</h1>
+  <p class="lead">The aerodynamic design only exists in the air if the finished model is straight, stiff enough, light enough, and reliably connected.</p>
+
+<h2>Match the method to the mission</h2>
+<div class="grid2">
+<div class="box c-build"><h4>Balsa / plywood</h4><ul><li>Light, stiff, precise, repairable</li><li>Needs grain awareness, jigs, finishing</li></ul></div>
+<div class="box c-design"><h4>Foamboard</h4><ul><li>Fast, cheap prototypes; folded skins are strong</li><li>Paper + hot glue add sneaky mass</li></ul></div>
+<div class="box c-airfoil"><h4>EPP / EPO molded foam</h4><ul><li>Tough, practical trainers</li><li>Adhesive compatibility matters; reinforce mounts</li></ul></div>
+<div class="box c-systems"><h4>3D print / composite</h4><ul><li>Complex, repeatable shapes</li><li>Shells can be heavy or brittle; composites need process control (a future deep-dive volume)</li></ul></div>
+</div>
+<div class="tip">Prototype the hardest joint first &mdash; wing joiner, gear plate, motor mount. A weak joint
+erases a strong material.</div>
+
+<h2>What a wing actually is</h2>
+<p>Cut the wing anywhere and the cross-section tells the story: <b>spar caps</b> (top and bottom) carry the
+bending as tension and compression; the <b>shear web</b> joins them so they work as one beam; the
+<b>D-box</b> skin from spar to leading edge resists twist; the <b>rib</b> holds it all in the airfoil shape.</p>
+<div class="eq">M<sub>root</sub> &asymp; n W b / 8 &nbsp;&nbsp;<span class="dim">(uniformly loaded straight wing &mdash; a first-order check, not a structural analysis)</span></div>
+<details class="yt"><summary><span class="yl">Your turn</span>Your 1.5 kg trainer pulls a 60&deg; bank (n = 2). Estimate the root bending moment &mdash; and would a bare 6 mm balsa spar take it?</summary><div class="ans">M &asymp; 2 &times; 14.7 N &times; 1.47 m / 8 &asymp; <b>5.4 N·m</b> &mdash; like holding a 1-litre bottle half a metre from your wrist, forever. A bare 6 mm balsa stick will not; a built-up spar with caps and a shear web will, at a fraction of the weight of &ldquo;just use harder wood&rdquo;.</div></details>
+
+<h2>Glue is structure</h2>
+<table>
+<tr><th>Adhesive</th><th>Good use</th><th>Watch out</th></tr>
+<tr><td>Thin CA</td><td>Tight balsa joints</td><td>Brittle; fumes; bonds skin instantly</td></tr>
+<tr><td>Medium CA</td><td>Small gaps, field repairs</td><td>Foam-safe type where required</td></tr>
+<tr><td>Aliphatic / PVA</td><td>Wood-to-wood</td><td>Needs clamping and cure time</td></tr>
+<tr><td>Epoxy</td><td>Motor mounts, joiners, mixed materials</td><td>Heavy; mix accurately</td></tr>
+<tr><td>Hot glue</td><td>Foamboard prototypes</td><td>Heavy; softens with heat</td></tr>
+</table>
+<p class="dim">Design the joint so loads flow through overlapping material, doublers, and gussets. Glue
+transfers load; it should never bridge a bad fit by itself. More glue is usually heavier, not stronger.</p>
+
+<h2>Build straight &mdash; a repeatable sequence</h2>
+<ol>
+<li><b>Prepare:</b> full-size plan, protected flat board, matched ribs, labeled left/right.</li>
+<li><b>Pin the datum:</b> lower spar or skin dead straight; root and tip blocks set incidence and washout.</li>
+<li><b>Skeleton:</b> ribs square to the board; spars, webs, LE, TE, servo mounts.</li>
+<li><b>Lock in torsion:</b> D-box or top skin while the panel is still jigged.</li>
+<li><b>Join panels:</b> set dihedral with a gauge; verify both incidences match.</li>
+<li><b>Fit controls:</b> bevel, hinge, horns, full travel without binding.</li>
+<li><b>Cover and re-check:</b> shrink opposite sides in stages; measure twist again while warm.</li>
+</ol>
+<div class="warn">You cannot &ldquo;build the warp out later.&rdquo; Covering can correct small errors,
+not a crooked structure. &ldquo;Looks straight&rdquo; is not a measurement &mdash; use one datum, strings, and
+matching diagonals (chapter 7 checklists).</div>
+
+<h2>Put the weight where the balance needs it</h2>
+<p>Fix the immovable masses first (motor, gear, servos), then create a battery adjustment range so the CG
+is <i>tuned</i>, not corrected with lead. Nose moments balance tail moments:
+<span class="mono">&Sigma;(m &times; distance) = 0</span> about the target CG. A heavy tail is the most
+expensive weight on the aircraft; long pushrods often beat tail-mounted servos.</p>
+
+  <div class="caveat"><b>Accuracy note</b>
+This guide was drafted with AI assistance and reviewed by a human, but it will contain mistakes.
+Treat every number as a starting point, not gospel: verify against the linked references and your
+own measurements before you cut material or fly. Spotted an inaccuracy? Please open an issue or
+pull request at <a href="https://github.com/akanwar/learnrcfixedwing">github.com/akanwar/learnrcfixedwing</a>
+— corrections are exactly why this lives on GitHub.</div>
+
+  <div class="pager"><a href="chapter-05.html"><span class="lab">&larr; Previous</span>Chapter 5 — Understand Airfoils</a><a class="next" href="chapter-07.html"><span class="lab">Next &rarr;</span>Chapter 7 — Systems, Test & Fly</a></div>
+  <div class="foot">Content CC BY 4.0 &middot; Code MIT &middot; <a href="https://github.com/akanwar/learnrcfixedwing">github.com/akanwar/learnrcfixedwing</a></div>
+</div>
+</div>
+</body>
+</html>

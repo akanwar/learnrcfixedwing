@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><rect width=%27100%27 height=%27100%27 rx=%2718%27 fill=%27%2314223f%27/><path d=%27M50 18 L56 34 L88 46 L88 56 L56 52 L54 74 L66 82 L66 88 L50 84 L34 88 L34 82 L46 74 L44 52 L12 56 L12 46 L44 34 Z%27 fill=%27%232a7de1%27/></svg>">
+<title>Chapter 1 — Design the System — Learn R/C Fixed Wing</title>
+<meta name="description" content="Mission definition, the four forces and moments, control surfaces and linkages.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="hangar.css">
+</head>
+<body>
+<div class="sheet">
+<div class="frame">
+  <div class="hqbar"><a href="index.html">&#8962; The Hangar</a><div class="doc">CH 01 · DESIGN THE SYSTEM</div></div>
+  <div class="kicker">Chapter 01</div>
+  <h1>Design the System</h1>
+  <p class="lead">The pilot commands rotations; physics decides what happens next. This chapter builds the vocabulary the whole guide runs on.</p>
+
+<h2>Write the mission before drawing the airplane</h2>
+<p>Every good design answers a question. Write yours down with numbers, not adjectives:
+target all-up mass, a stall speed you can land at, field size, wind you will accept, budget, build time.
+Pick <b>one primary mission</b> and at most two secondary goals. Each extra requirement has a mass
+and drag bill attached.</p>
+<details class="yt"><summary><span class="yl">Your turn</span>Write your own mission in three lines: primary job, all-up mass target, and the field you fly from. What did you have to give up?</summary><div class="ans">There is no single right answer &mdash; the exercise is noticing the tradeoffs. A small park demands low wing loading far more than top speed; a windy hillside demands the opposite.</div></details>
+
+<h2>Four forces &mdash; and the moments they create</h2>
+<p><b>Lift</b> acts roughly perpendicular to the relative wind; <b>weight</b> acts through the centre of
+gravity; <b>thrust</b> and <b>drag</b> act roughly along the flight path. But forces act <i>at locations</i>:
+a force away from the CG also creates a turning <b>moment</b>. Steady flight needs both force balance
+<i>and</i> moment balance &mdash; lift can equal weight while the airplane still pitches uncontrollably.</p>
+<div class="tip">A tail is not merely a small rear wing. It supplies <b>leverage</b> that balances and damps
+pitching and yawing motion. Chapter 3 turns that leverage into numbers.</div>
+
+<h2>Pitch, roll, yaw &mdash; and who commands them</h2>
+<table>
+<tr><th>Axis</th><th>Main control</th><th>Pilot sees</th><th>Stabilised by</th></tr>
+<tr><td>Pitch</td><td>Elevator</td><td>Nose up or down</td><td>Horizontal tail</td></tr>
+<tr><td>Roll</td><td>Ailerons</td><td>Bank left or right</td><td>Dihedral, wing damping</td></tr>
+<tr><td>Yaw</td><td>Rudder</td><td>Nose left or right</td><td>Vertical fin</td></tr>
+</table>
+<p>A normal turn is a three-axis event: ailerons bank, elevator holds the curved path, rudder keeps the
+nose from skidding. And banking has a price:</p>
+<div class="eq">n = 1 / cos &phi; &nbsp;&nbsp;&nbsp; V<sub>s,turn</sub> = V<sub>s</sub> &radic;n</div>
+<p>At 60&deg; of bank the wing carries <b>twice</b> the weight and stall speed rises 41%.
+Hence the oldest rule at the field: no steep, slow turns near the ground.</p>
+<details class="yt"><summary><span class="yl">Your turn</span>At what bank angle does stall speed rise by 25%?</summary><div class="ans">Multiplier 1.25 means n = 1.25&sup2; = 1.5625, so cos &phi; = 1/1.5625 = 0.64 &rarr; <b>&phi; &asymp; 50&deg;</b>. Derivation on the <a href='mathshelf.html'>math shelf</a>.</div></details>
+
+<h2>Control surfaces: starting proportions</h2>
+<table>
+<tr><th>Surface</th><th>Chord</th><th>Span / height</th><th>Job</th></tr>
+<tr><td>Aileron</td><td>18&ndash;22% of wing chord</td><td>Outer 40&ndash;50% of each half-wing</td><td>Roll</td></tr>
+<tr><td>Elevator</td><td>25&ndash;35% of tail chord</td><td>80&ndash;95% of tail span</td><td>Pitch</td></tr>
+<tr><td>Rudder</td><td>30&ndash;40% of fin chord</td><td>Most of fin height</td><td>Yaw</td></tr>
+<tr><td>Flap</td><td>20&ndash;30% of wing chord</td><td>Inner 40&ndash;60% of each half-wing</td><td>Lift / drag</td></tr>
+</table>
+<p class="dim">Conventional-trainer starting points, not laws. Authority comes from area,
+lever arm, deflection, airspeed, stiffness, and clean airflow &mdash; not area alone.</p>
+
+<h2>Throws, rates, expo &mdash; start modest</h2>
+<table>
+<tr><th>Setting</th><th>Trainer start</th><th>Common mistake</th></tr>
+<tr><td>Aileron throw</td><td>10&ndash;15&deg; each way</td><td>Huge travel &rarr; snap-like response</td></tr>
+<tr><td>Elevator throw</td><td>10&ndash;15&deg; each way</td><td>Too much makes CG problems feel worse</td></tr>
+<tr><td>Rudder throw</td><td>20&ndash;25&deg; each way</td><td>Binding at full travel</td></tr>
+<tr><td>Expo</td><td>15&ndash;30%</td><td>Using expo to hide linkage slop</td></tr>
+<tr><td>Aileron differential</td><td>1.5&ndash;2&times; more up than down</td><td>Equal travel on draggy wings &rarr; adverse yaw</td></tr>
+</table>
+
+<h2>Linkages: geometry beats muscle</h2>
+<p>A rigid, slop-free linkage makes a modest servo work better than a powerful servo connected badly.
+Inner hole on the servo arm = more force, less travel; the control-horn hole stays close to the hinge line;
+servo arm at 90&deg; to the pushrod at neutral; no flexing rods, loose clevises, or soft mounts.</p>
+<div class="warn">Flutter risk rises quickly with speed. Stiff surfaces, tight hinges, short rigid linkages,
+and adequate servo torque are structural safety items &mdash; not cosmetic details.</div>
+
+  <div class="caveat"><b>Accuracy note</b>
+This guide was drafted with AI assistance and reviewed by a human, but it will contain mistakes.
+Treat every number as a starting point, not gospel: verify against the linked references and your
+own measurements before you cut material or fly. Spotted an inaccuracy? Please open an issue or
+pull request at <a href="https://github.com/akanwar/learnrcfixedwing">github.com/akanwar/learnrcfixedwing</a>
+— corrections are exactly why this lives on GitHub.</div>
+
+  <div class="pager"><a href="flightplan.html"><span class="lab">&larr; Previous</span>The Flight Plan</a><a class="next" href="chapter-02.html"><span class="lab">Next &rarr;</span>Chapter 2 — Size the Wing</a></div>
+  <div class="foot">Content CC BY 4.0 &middot; Code MIT &middot; <a href="https://github.com/akanwar/learnrcfixedwing">github.com/akanwar/learnrcfixedwing</a></div>
+</div>
+</div>
+</body>
+</html>

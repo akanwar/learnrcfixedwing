@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><rect width=%27100%27 height=%27100%27 rx=%2718%27 fill=%27%2314223f%27/><path d=%27M50 18 L56 34 L88 46 L88 56 L56 52 L54 74 L66 82 L66 88 L50 84 L34 88 L34 82 L46 74 L44 52 L12 56 L12 46 L44 34 Z%27 fill=%27%232a7de1%27/></svg>">
+<title>Chapter 3 — Tail & Balance — Learn R/C Fixed Wing</title>
+<meta name="description" content="Tail volume coefficients, neutral point, static margin and CG placement.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="hangar.css">
+</head>
+<body>
+<div class="sheet">
+<div class="frame">
+  <div class="hqbar"><a href="index.html">&#8962; The Hangar</a><div class="doc">CH 03 · TAIL &amp; BALANCE</div></div>
+  <div class="kicker">Chapter 03</div>
+  <h1>Tail &amp; Balance</h1>
+  <p class="lead">CG position can turn a well-built airplane from calm to uncontrollable. This chapter is the difference between a maiden and a mourning.</p>
+
+<h2>Tail volume: area &times; leverage</h2>
+<p>A small tail far behind the CG can do the job of a big tail mounted close. That product of area and
+lever arm, normalised by the wing, is the <b>tail volume coefficient</b> &mdash; the screening tool used from
+trainers to airliners.</p>
+<div class="eq">V<sub>h</sub> = S<sub>h</sub> l<sub>h</sub> / (S c&#772;) &nbsp;&nbsp;&rarr;&nbsp;&nbsp; S<sub>h</sub> = V<sub>h</sub> S c&#772; / l<sub>h</sub></div>
+<div class="eq">V<sub>v</sub> = S<sub>v</sub> l<sub>v</sub> / (S b) &nbsp;&nbsp;&rarr;&nbsp;&nbsp; S<sub>v</sub> = V<sub>v</sub> S b / l<sub>v</sub></div>
+<table>
+<tr><th></th><th>Broad range</th><th>Forgiving trainer start</th></tr>
+<tr><td>Horizontal V<sub>h</sub></td><td>0.30&ndash;0.60</td><td><b>0.50&ndash;0.60</b></td></tr>
+<tr><td>Vertical V<sub>v</sub></td><td>0.02&ndash;0.05</td><td><b>0.035&ndash;0.05</b></td></tr>
+</table>
+<p class="dim">A longer fuselage buys a smaller tail. Lots of side area ahead of the CG (big canopy, floats)
+may need more fin behind it. Volume coefficients are screening tools, not proof of stability &mdash; compare
+with successful aircraft of similar layout. (Source: MIT Unified Engineering.)</p>
+<details class="yt"><summary><span class="yl">Your turn</span>Your fuselage came out 10 cm shorter than planned (arm 550 mm instead of 650). Recalculate the trainer&rsquo;s S<sub>h</sub> (V<sub>h</sub> 0.55, S 0.333 m&sup2;, c&#772; 0.226 m).</summary><div class="ans">S<sub>h</sub> = 0.55 &times; 0.333 &times; 0.226 / 0.55 = <b>0.0753 m&sup2; &asymp; 753 cm&sup2;</b> &mdash; about 18% more tail because you lost 15% of the arm. Leverage is cheap; area costs weight at the worst address (the tail).</div></details>
+
+<h2>CG, neutral point, static margin</h2>
+<p>Every aircraft has a <b>neutral point</b> (NP): the CG position where it would be exactly
+indifferent in pitch. Keep the CG <b>ahead</b> of the NP and the plane resists disturbances;
+let it drift behind and no amount of thumbs will save it.</p>
+<div class="eq">SM = ( x<sub>NP</sub> &minus; x<sub>CG</sub> ) / c&#772;</div>
+<figure>
+<svg viewBox="0 0 760 150" xmlns="http://www.w3.org/2000/svg">
+  <line x1="60" y1="70" x2="700" y2="70" stroke="#1d2534" stroke-width="2"/>
+  <line x1="60" y1="60" x2="60" y2="80" stroke="#1d2534" stroke-width="2"/>
+  <line x1="700" y1="60" x2="700" y2="80" stroke="#1d2534" stroke-width="2"/>
+  <text x="60" y="105" fill="#5f687d" font-size="12" text-anchor="middle">LE</text>
+  <text x="700" y="105" fill="#5f687d" font-size="12" text-anchor="middle">TE</text>
+  <line x1="220" y1="58" x2="220" y2="82" stroke="#5f687d" stroke-width="1.5"/>
+  <text x="220" y="105" fill="#5f687d" font-size="12" text-anchor="middle">25% c&#772;</text>
+  <circle cx="270" cy="70" r="9" fill="#c0392b"/>
+  <text x="270" y="42" fill="#c0392b" font-size="13" font-weight="bold" text-anchor="middle">CG</text>
+  <circle cx="360" cy="70" r="9" fill="#8e44ad"/>
+  <text x="360" y="42" fill="#8e44ad" font-size="13" font-weight="bold" text-anchor="middle">NP</text>
+  <line x1="270" y1="125" x2="360" y2="125" stroke="#2f8f5b" stroke-width="2" marker-start="url(#sm1)" marker-end="url(#sm2)"/>
+  <text x="380" y="129" fill="#2f8f5b" font-size="12.5" font-weight="bold">static margin = SM &times; c&#772;</text>
+  <defs>
+   <marker id="sm1" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#2f8f5b"/></marker>
+   <marker id="sm2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#2f8f5b"/></marker>
+  </defs>
+</svg>
+<figcaption>The chord as a number line. CG ahead of NP = stable. Maiden target: SM &asymp; 10&ndash;15%. The old &ldquo;balance at 25% chord&rdquo; rule is a shortcut for unswept trainers, not a law.</figcaption>
+</figure>
+<div class="grid2">
+<div class="box c-design"><h4>CG too far forward</h4><ul>
+<li>Very stable but nose-heavy; weak flare</li><li>More trim drag, faster landings</li></ul></div>
+<div class="box c-fly"><h4>CG too far aft</h4><ul>
+<li>Pitch-sensitive, hard to trim, may oscillate</li><li>Behind the NP: unrecoverably unstable</li></ul></div>
+</div>
+<div class="warn">Balance the <b>complete, flight-ready</b> aircraft &mdash; battery, prop, hatch, landing gear
+installed. Move the battery or equipment before adding lead; a heavy tail needs a much bigger nose correction.</div>
+<details class="yt"><summary><span class="yl">Your turn</span>c&#772; = 226 mm and you balance the plane 12 mm ahead of the NP. Static margin? Safe for a maiden?</summary><div class="ans">SM = 12/226 &asymp; <b>5%</b> &mdash; flyable but nervous; too little for a first flight. Move the CG forward to 10&ndash;15% (23&ndash;34 mm ahead of the NP) and shift it aft only after calm, trimmed flights.</div></details>
+
+<h2>Stability &ne; authority</h2>
+<p>Stability is the tendency to return to trim after a disturbance. Authority is the muscle to command a
+change. You need both, in the right amounts: a stable plane can still run out of elevator in the flare,
+and an authoritative one can be trimmed so badly it fights you every second. Verify both: natural stability
+<i>and</i> enough control for takeoff, flare, recovery, and crosswinds.</p>
+
+  <div class="caveat"><b>Accuracy note</b>
+This guide was drafted with AI assistance and reviewed by a human, but it will contain mistakes.
+Treat every number as a starting point, not gospel: verify against the linked references and your
+own measurements before you cut material or fly. Spotted an inaccuracy? Please open an issue or
+pull request at <a href="https://github.com/akanwar/learnrcfixedwing">github.com/akanwar/learnrcfixedwing</a>
+— corrections are exactly why this lives on GitHub.</div>
+
+  <div class="pager"><a href="chapter-02.html"><span class="lab">&larr; Previous</span>Chapter 2 — Size the Wing</a><a class="next" href="chapter-04.html"><span class="lab">Next &rarr;</span>Chapter 4 — The Worked Trainer</a></div>
+  <div class="foot">Content CC BY 4.0 &middot; Code MIT &middot; <a href="https://github.com/akanwar/learnrcfixedwing">github.com/akanwar/learnrcfixedwing</a></div>
+</div>
+</div>
+</body>
+</html>

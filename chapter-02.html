@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><rect width=%27100%27 height=%27100%27 rx=%2718%27 fill=%27%2314223f%27/><path d=%27M50 18 L56 34 L88 46 L88 56 L56 52 L54 74 L66 82 L66 88 L50 84 L34 88 L34 82 L46 74 L44 52 L12 56 L12 46 L44 34 Z%27 fill=%27%232a7de1%27/></svg>">
+<title>Chapter 2 — Size the Wing — Learn R/C Fixed Wing</title>
+<meta name="description" content="Wing loading, stall speed, aspect ratio, planform and the four built-in angles.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="hangar.css">
+</head>
+<body>
+<div class="sheet">
+<div class="frame">
+  <div class="hqbar"><a href="index.html">&#8962; The Hangar</a><div class="doc">CH 02 · SIZE THE WING</div></div>
+  <div class="kicker">Chapter 02</div>
+  <h1>Size the Wing</h1>
+  <p class="lead">Start from mass and desired low-speed behaviour — span is a result, not a starting point. Two planes with the same span can fly nothing alike.</p>
+
+<h2>Wing loading: the number that predicts personality</h2>
+<div class="eq">wing loading = mass &divide; area &nbsp;&nbsp;&rarr;&nbsp;&nbsp; S = m &divide; target loading</div>
+<p>In model units: area in dm&sup2; = mass in grams &divide; target g/dm&sup2;. Lower loading means slower
+flight and gentler landings; higher loading means speed and wind penetration.</p>
+<table>
+<tr><th>&asymp; 25&ndash;40 g/dm&sup2;</th><th>&asymp; 40&ndash;60 g/dm&sup2;</th><th>60+ g/dm&sup2;</th></tr>
+<tr><td>Slow / floaty</td><td>Trainer / sport</td><td>Fast / heavy &mdash; lands hot</td></tr>
+</table>
+<p class="dim">Small models need proportionally lighter loading to feel as forgiving &mdash; they fly at lower
+Reynolds numbers (<a href="mathshelf.html">math shelf</a>). Sanity-check against proven models of similar size.</p>
+<div class="warn">Keep a mass budget with a 10&ndash;15% reserve for what you forgot. Weight added late forces
+faster flight, stronger structure, and a bigger power system &mdash; the loop bites.</div>
+
+<h2>The sizing chain</h2>
+<ol>
+<li>Estimate all-up flying mass &mdash; battery, covering, fasteners, glue, everything.</li>
+<li>Choose a target wing loading for the mission.</li>
+<li>Area: <span class="mono">S = m &divide; loading</span>.</li>
+<li>Choose aspect ratio; span <span class="mono">b = &radic;(AR&times;S)</span>, chord <span class="mono">c = S &divide; b</span>.</li>
+<li>Check stall speed. Repeat until the numbers agree.</li>
+</ol>
+<div class="eq">V<sub>s</sub> = &radic;( 2W / &rho; S C<sub>L</sub>max )</div>
+<p>More weight raises stall speed by &radic;2 per doubling, not 2. More area lowers it &mdash; and adds structure
+and drag. C<sub>L</sub>max is the least certain input: treat the result as an estimate and verify at altitude.
+A calm-air approach near <b>1.3&nbsp;V<sub>s</sub></b> is a sensible habit.</p>
+<details class="yt"><summary><span class="yl">Your turn</span>A 2000 g version of the trainer keeps 45 g/dm&sup2;. Find S and the span at AR 6.5.</summary><div class="ans">S = 2000/45 = 44.4 dm&sup2; = 0.444 m&sup2; &rarr; b = &radic;(6.5 &times; 0.444) &asymp; <b>1.70 m</b>. Weight grew 33% but span only 16% &mdash; area scales with b&sup2;.</div></details>
+
+<h2>Aspect ratio and planform</h2>
+<div class="eq">AR = b&sup2; / S</div>
+<div class="grid2">
+<div class="box c-design"><h4>Higher AR</h4><ul><li>Lower induced drag, efficient glide</li><li>Longer spar, bigger bending problem</li></ul></div>
+<div class="box c-build"><h4>Lower AR</h4><ul><li>Compact, agile, easy to make stiff</li><li>More induced drag</li></ul></div>
+<div class="box c-airfoil"><h4>Rectangular / mild taper</h4><ul><li>Easy to build, friendly stall</li><li>The right answer for a first design</li></ul></div>
+<div class="box c-fly"><h4>Strong taper / sweep</h4><ul><li>Tip-stall risk without washout</li><li>Sweep moves the aerodynamic centre &mdash; extra CG care</li></ul></div>
+</div>
+
+<h2>The four built-in angles</h2>
+<table>
+<tr><th>Angle</th><th>What it is</th><th>Why you care</th></tr>
+<tr><td><b>Dihedral</b></td><td>Tips sit <b>higher</b> than the root (front view)</td><td>A sideslip lifts the low wing &mdash; the plane rights itself</td></tr>
+<tr><td><b>Washout</b></td><td>Tip twisted 1&ndash;2&deg; nose-<b>down</b> vs the root</td><td>Root stalls first; ailerons keep working; stalls become a nod, not a snap</td></tr>
+<tr><td><b>Incidence</b></td><td>Wing chord angle vs the fuselage datum</td><td>A construction setting fixed in the jig &mdash; not the same as angle of attack</td></tr>
+<tr><td><b>Decalage</b></td><td>Wing incidence minus tail incidence</td><td>Sets the elevator trim needed for level flight</td></tr>
+</table>
+<div class="warn">Both wing panels must match, measured from the same datum with the same jig.
+Accidental twist is not washout, and covering can pull a straight wing crooked.</div>
+<details class="yt"><summary><span class="yl">Your turn</span>Left tip measures +1.4&deg; washout, right tip +0.6&deg;. Washout, warp, or both &mdash; and which wing drops in a stall?</summary><div class="ans">Both: intended washout plus 0.8&deg; of warp. The right tip flies at a higher effective angle, stalls first, and the plane drops the <b>right</b> wing &mdash; usually on final, when you least want it.</div></details>
+  <div class="caveat"><b>Accuracy note</b>
+This guide was drafted with AI assistance and reviewed by a human, but it will contain mistakes.
+Treat every number as a starting point, not gospel: verify against the linked references and your
+own measurements before you cut material or fly. Spotted an inaccuracy? Please open an issue or
+pull request at <a href="https://github.com/akanwar/learnrcfixedwing">github.com/akanwar/learnrcfixedwing</a>
+— corrections are exactly why this lives on GitHub.</div>
+
+  <div class="pager"><a href="chapter-01.html"><span class="lab">&larr; Previous</span>Chapter 1 — Design the System</a><a class="next" href="chapter-03.html"><span class="lab">Next &rarr;</span>Chapter 3 — Tail & Balance</a></div>
+  <div class="foot">Content CC BY 4.0 &middot; Code MIT &middot; <a href="https://github.com/akanwar/learnrcfixedwing">github.com/akanwar/learnrcfixedwing</a></div>
+</div>
+</div>
+</body>
+</html>

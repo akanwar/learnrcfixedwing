@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><rect width=%27100%27 height=%27100%27 rx=%2718%27 fill=%27%2314223f%27/><path d=%27M50 18 L56 34 L88 46 L88 56 L56 52 L54 74 L66 82 L66 88 L50 84 L34 88 L34 82 L46 74 L44 52 L12 56 L12 46 L44 34 Z%27 fill=%27%232a7de1%27/></svg>">
+<title>Chapter 7 — Systems, Test & Fly — Learn R/C Fixed Wing</title>
+<meta name="description" content="Power systems, radio installation, preflight, the maiden flight plan, trimming and troubleshooting.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="hangar.css">
+</head>
+<body>
+<div class="sheet">
+<div class="frame">
+  <div class="hqbar"><a href="index.html">&#8962; The Hangar</a><div class="doc">CH 07 · SYSTEMS, TEST &amp; FLY</div></div>
+  <div class="kicker">Chapter 07</div>
+  <h1>Systems, Test &amp; Fly</h1>
+  <p class="lead">A maiden flight is a controlled experiment: the goal is not to prove the airplane perfect, but to collect safe evidence — and bring it home.</p>
+
+<h2>The power system is one circuit</h2>
+<p>Battery &rarr; ESC &rarr; motor is the high-current loop: keep it short, thick, and compact. The ESC&rsquo;s
+BEC sends 5 V up the throttle lead &mdash; that one plug is the receiver&rsquo;s only power source. Everything
+past the receiver is the low-current signal side: thin, light, routed away from power wires, antennas at 90&deg;.</p>
+<table>
+<tr><th>Class</th><th>Power density</th><th>The trainer&rsquo;s numbers (1.5 kg)</th></tr>
+<tr><td>Trainer</td><td>100&ndash;150 W/kg</td><td rowspan="3">225 W &middot; 3S &middot; &asymp;20 A &middot; 30 A ESC &middot; 10&times;6 class prop &middot; &asymp;9 min on 2200 mAh</td></tr>
+<tr><td>Sport</td><td>150&ndash;220 W/kg</td></tr>
+<tr><td>High performance</td><td>220&ndash;350+ W/kg</td></tr>
+</table>
+<div class="warn">Kv is not a power rating, C-rating is a claim not a promise, and prop charts beat guessing.
+Choose motor + prop + ESC as a <b>tested combination</b>, then verify volts, amps, watts and temperatures
+with a wattmeter &mdash; restrained aircraft, cowling on, body out of the prop arc.</div>
+<div class="tip">LiPo discipline: correct charger mode and cell count, inspect for swelling, charge in a
+fire-safe place, storage-charge between sessions, follow the manufacturer for disposal.</div>
+
+<h2>Preflight &mdash; the same order every time</h2>
+<p>Airframe &rarr; controls &rarr; power &rarr; radio. The printable version with check-off boxes is on the
+<a href="checklists.html">checklists page</a>; use a written sequence because memory is weakest exactly when
+excitement is highest.</p>
+
+<h2>The maiden is an experiment, not a performance</h2>
+<ol>
+<li><b>Conditions:</b> big familiar field, mild steady wind, good light, experienced helper.</li>
+<li><b>Ground check:</b> CG, directions, range test, power, timer, abort plan agreed aloud.</li>
+<li><b>Takeoff:</b> smooth and shallow &mdash; no hero climbs.</li>
+<li><b>Height first:</b> trim only at altitude, one axis at a time. If it needs lots of trim, land and inspect.</li>
+<li><b>Basic checks:</b> gentle turns, power-off glide, control response. No low stall tests.</li>
+<li><b>Land early</b> with a wide pattern and extra speed. Save the rest for flight two.</li>
+</ol>
+<div class="warn">Abort if the plane is badly out of trim, controls feel wrong, power sounds weak, or the
+structure makes a new noise. Aborting is data; pressing on is gambling.</div>
+
+<h2>Trim and tune in a safe order</h2>
+<p>Mechanical zero &rarr; CG &rarr; throws and expo &rarr; aileron differential &rarr; power effects &rarr;
+flaps/mixes. One change at a time, and a flight log for every session: configuration, battery, wind, CG,
+trims, temperatures, observations, and the <i>single</i> next change.</p>
+
+<h2>Troubleshooting by symptom</h2>
+<table>
+<tr><th>Symptom</th><th>Look at</th><th>Likely fix</th></tr>
+<tr><td>Pitches up with throttle</td><td>CG aft; thrust line; flexible tail</td><td>Correct the cause before adding mixes</td></tr>
+<tr><td>Needs lots of up elevator</td><td>CG forward; tail incidence</td><td>Move mass, correct geometry</td></tr>
+<tr><td>Rolls one way hands-off</td><td>Wing warp; lateral balance</td><td>Measure both panels; remove warp with heat</td></tr>
+<tr><td>Wanders in yaw</td><td>Small fin; slop; aft CG</td><td>Fix linkage; CG forward; bigger fin if proven</td></tr>
+<tr><td>Tip drops near stall</td><td>Washout mismatch; warp</td><td>Correct twist; approach faster</td></tr>
+<tr><td>Servo buzzes</td><td>Binding; overload; BEC sag</td><td>Fix geometry; load-test the BEC</td></tr>
+<tr><td>Short flights</td><td>Overpropped; drag; tired pack</td><td>Wattmeter first, then prop down</td></tr>
+</table>
+<div class="warn">Never keep flying an aircraft with large unexplained trim, any hint of flutter, overheating,
+or intermittent controls. Land. Find out. That is the whole discipline.</div>
+<details class="yt"><summary><span class="yl">Your turn</span>A 4S pack replaces the trainer&rsquo;s 3S. Estimate the new no-load RPM change and explain why the same prop may overload the motor.</summary><div class="ans">No-load RPM &asymp; Kv &times; V rises by 14.8/11.1 &asymp; <b>+33%</b>. Prop power grows roughly with rpm&sup3; &mdash; so +33% rpm asks for &asymp;2.4&times; the power. Same prop, same motor, 4S = smoke unless you drop diameter or pitch. The wattmeter would have told you before the smoke did.</div></details>
+  <div class="caveat"><b>Accuracy note</b>
+This guide was drafted with AI assistance and reviewed by a human, but it will contain mistakes.
+Treat every number as a starting point, not gospel: verify against the linked references and your
+own measurements before you cut material or fly. Spotted an inaccuracy? Please open an issue or
+pull request at <a href="https://github.com/akanwar/learnrcfixedwing">github.com/akanwar/learnrcfixedwing</a>
+— corrections are exactly why this lives on GitHub.</div>
+
+  <div class="pager"><a href="chapter-06.html"><span class="lab">&larr; Previous</span>Chapter 6 — Build the Structure</a><a class="next" href="mathshelf.html"><span class="lab">Next &rarr;</span>The Math Shelf</a></div>
+  <div class="foot">Content CC BY 4.0 &middot; Code MIT &middot; <a href="https://github.com/akanwar/learnrcfixedwing">github.com/akanwar/learnrcfixedwing</a></div>
+</div>
+</div>
+</body>
+</html>

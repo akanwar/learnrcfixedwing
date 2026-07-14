@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><rect width=%27100%27 height=%27100%27 rx=%2718%27 fill=%27%2314223f%27/><path d=%27M50 18 L56 34 L88 46 L88 56 L56 52 L54 74 L66 82 L66 88 L50 84 L34 88 L34 82 L46 74 L44 52 L12 56 L12 46 L44 34 Z%27 fill=%27%232a7de1%27/></svg>">
+<title>Chapter 4 — The Worked Trainer — Learn R/C Fixed Wing</title>
+<meta name="description" content="A 1.5 kg electric trainer designed end to end with every number shown.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="hangar.css">
+</head>
+<body>
+<div class="sheet">
+<div class="frame">
+  <div class="hqbar"><a href="index.html">&#8962; The Hangar</a><div class="doc">CH 04 · THE WORKED TRAINER</div></div>
+  <div class="kicker">Chapter 04</div>
+  <h1>The Worked Trainer</h1>
+  <p class="lead">One airplane, designed end-to-end with every number on the table: 1.5 kg, 1.47 m span, gentle and honest. Steal these numbers for your first build.</p>
+
+<h2>Step 1 &mdash; the mass budget</h2>
+<table>
+<tr><th>Item</th><th>Budget</th><th>Note</th></tr>
+<tr><td>Airframe structure</td><td>480 g</td><td>Wing, fuselage, tail, landing gear</td></tr>
+<tr><td>Motor + prop + mount</td><td>180 g</td><td>&asymp;220 W class</td></tr>
+<tr><td>ESC + wiring</td><td>55 g</td><td>With cooling margin</td></tr>
+<tr><td>Battery</td><td>185 g</td><td>3S 2200 mAh</td></tr>
+<tr><td>Receiver + 4 servos</td><td>115 g</td><td>Leads and hardware included</td></tr>
+<tr><td>Covering / finish</td><td>85 g</td><td>Always underestimated</td></tr>
+<tr><td>Fasteners, glue, misc.</td><td>100 g</td><td>Hinges, horns, wheels, connectors</td></tr>
+<tr><td>Design reserve</td><td>300 g</td><td>20% early-design reserve</td></tr>
+<tr><td><b>Target all-up mass</b></td><td><b>1500 g</b></td><td>The number everything below uses</td></tr>
+</table>
+<p class="dim">At every review, replace estimates with measured masses. If the total grows, re-run wing
+loading, stall speed, power, and CG.</p>
+
+<h2>Step 2 &mdash; size the wing</h2>
+<div class="eq">S = 1500 / 45 = 33.3 dm&sup2; &nbsp;&middot;&nbsp; b = &radic;(6.5 &times; 0.333) = 1.47 m &nbsp;&middot;&nbsp; c = 0.333 / 1.47 = 226 mm</div>
+<p>Target 45 g/dm&sup2; at AR 6.5. With C<sub>L</sub>max &asymp; 1.1: V<sub>s</sub> &asymp; 8.1 m/s (29 km/h),
+approach &asymp; 10.5 m/s. Rectangular or mildly tapered planform for predictable building and stall.</p>
+
+<h2>Step 3 &mdash; size the tail and controls</h2>
+<p>Tail arm 650 mm, V<sub>h</sub> = 0.55, V<sub>v</sub> = 0.04:</p>
+<div class="eq">S<sub>h</sub> &asymp; 640 cm&sup2; (470 &times; 135 mm) &nbsp;&middot;&nbsp; S<sub>v</sub> &asymp; 300 cm&sup2; (240 tall &times; 125 mm)</div>
+<p>Elevator &asymp;30% of tail chord (40 mm, full span). Rudder 35&ndash;40% of fin chord. Ailerons 45 mm
+&times; &asymp;350 mm each, outer half-wing, 1.5&ndash;2:1 differential.</p>
+
+<h2>Step 4 &mdash; power and maiden setup</h2>
+<div class="eq">P = 150 W/kg &times; 1.5 kg &asymp; 225 W &nbsp;&middot;&nbsp; I &asymp; 225 / 11.1 &asymp; 20.3 A &nbsp;&middot;&nbsp; endurance &asymp; 0.8 &times; 2.2 / 12 &times; 60 &asymp; 8.8 min</div>
+<ul>
+<li>3S 2200 mAh; documented motor/prop combo near 220&ndash;240 W; ESC &ge;30 A with adequate BEC.</li>
+<li>Maiden CG conservative (10&ndash;15% SM); low rates; directions checked from behind the plane.</li>
+<li>An experienced pilot flies or assists; climb to height before trimming or stall tests.</li>
+</ul>
+<div class="warn">Current limits are maximums, not targets. Verify volts, amps, watts and temperatures with a
+wattmeter &mdash; cowling on.</div>
+
+<h2>Step 5 &mdash; the three-view</h2>
+<p>The same numbers, drawn. This is the payoff of the whole chapter &mdash; and the
+<a href="designer.html">Design Calculator</a> will draw yours the same way.</p>
+<figure><svg id="tv" viewBox="0 0 760 560" xmlns="http://www.w3.org/2000/svg"></svg>
+<figcaption>1500 g &middot; 33.3 dm&sup2; &middot; AR 6.5 &middot; V<sub>h</sub> 0.55 &middot; V<sub>v</sub> 0.04 &middot; dimensions in mm.</figcaption></figure>
+<script>
+(function(){
+  var NS='http://www.w3.org/2000/svg', svg=document.getElementById('tv');
+  function el(t,a,par,tx){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);
+    if(tx!=null)e.textContent=tx; par.appendChild(e); return e;}
+  var defs=el('defs',{},svg);
+  var mk=el('marker',{id:'d1',viewBox:'0 0 10 10',refX:9,refY:5,markerWidth:6,markerHeight:6,orient:'auto-start-reverse'},defs);
+  el('path',{d:'M0,0 L10,5 L0,10 z',fill:'#2a7de1'},mk);
+  var mg=el('marker',{id:'d2',viewBox:'0 0 10 10',refX:9,refY:5,markerWidth:6,markerHeight:6,orient:'auto-start-reverse'},defs);
+  el('path',{d:'M0,0 L10,5 L0,10 z',fill:'#2f8f5b'},mg);
+  var cx=380, s0=0.34;                       // px per mm
+  var span=1470*s0, chord=226*s0, arm=650*s0, bh=470*s0, ch=135*s0;
+  var noseY=60, wleY=noseY+60, wteY=wleY+chord;
+  var tleY=wleY+0.25*chord+arm-0.25*ch, tteY=tleY+ch, endY=tteY+8;
+  el('path',{d:'M'+(cx-7)+','+(noseY+12)+' L'+cx+','+noseY+' L'+(cx+7)+','+(noseY+12)+' L'+(cx+9)+','+endY+' L'+(cx-9)+','+endY+' Z',fill:'#f4f7fc',stroke:'#1d2534','stroke-width':2},svg);
+  el('line',{x1:cx-44,y1:noseY,x2:cx+44,y2:noseY,stroke:'#5f687d','stroke-width':2.5},svg);
+  el('rect',{x:cx-span/2,y:wleY,width:span,height:chord,fill:'#e8f1fd',stroke:'#2a7de1','stroke-width':2},svg);
+  [[1],[-1]].forEach(function(g){var x0=cx+g[0]*span/2,xi=cx+g[0]*(span/2-350*s0);
+    el('rect',{x:Math.min(x0,xi),y:wteY-45*s0,width:Math.abs(x0-xi),height:45*s0,fill:'#fde8d2',stroke:'#d96f24','stroke-width':1.5},svg);});
+  el('rect',{x:cx-bh/2,y:tleY,width:bh,height:ch,fill:'#eaf6ef',stroke:'#2f8f5b','stroke-width':2},svg);
+  el('rect',{x:cx-bh/2,y:tteY-40*s0,width:bh,height:40*s0,fill:'#d5ecdd',stroke:'#2f8f5b','stroke-width':1.5},svg);
+  var yf0=wteY+0.25*(tleY-wteY);
+  el('path',{d:'M'+(cx-2)+','+yf0+' L'+(cx+2)+','+yf0+' L'+(cx+4)+','+endY+' L'+(cx-4)+','+endY+' Z',fill:'#eaf6ef',stroke:'#2f8f5b','stroke-width':1.5},svg);
+  var cgY=wleY+0.25*chord;
+  el('circle',{cx:cx,cy:cgY,r:7,fill:'#c0392b'},svg);
+  el('text',{x:cx+14,y:cgY+4,fill:'#c0392b','font-size':13,'font-weight':'bold'},svg,'CG — 56 mm aft of LE');
+  el('line',{x1:cx-span/2,y1:wleY-22,x2:cx+span/2,y2:wleY-22,stroke:'#2a7de1','stroke-width':1.5,'marker-start':'url(#d1)','marker-end':'url(#d1)'},svg);
+  el('text',{x:cx,y:wleY-30,fill:'#2a7de1','font-size':13,'font-weight':'bold','text-anchor':'middle'},svg,'span 1470');
+  el('line',{x1:cx+span/2+26,y1:wleY,x2:cx+span/2+26,y2:wteY,stroke:'#2a7de1','stroke-width':1.5,'marker-start':'url(#d1)','marker-end':'url(#d1)'},svg);
+  el('text',{x:cx+span/2+34,y:(wleY+wteY)/2+4,fill:'#2a7de1','font-size':13,'font-weight':'bold'},svg,'chord 226');
+  el('line',{x1:cx-span/2-30,y1:cgY,x2:cx-span/2-30,y2:tleY+0.25*ch,stroke:'#2f8f5b','stroke-width':1.5,'marker-start':'url(#d2)','marker-end':'url(#d2)'},svg);
+  el('text',{x:cx-span/2-38,y:(cgY+tleY)/2,fill:'#2f8f5b','font-size':13,'font-weight':'bold','text-anchor':'end'},svg,'tail arm 650');
+  el('line',{x1:cx-bh/2,y1:endY+20,x2:cx+bh/2,y2:endY+20,stroke:'#2f8f5b','stroke-width':1.5,'marker-start':'url(#d2)','marker-end':'url(#d2)'},svg);
+  el('text',{x:cx,y:endY+38,fill:'#2f8f5b','font-size':13,'font-weight':'bold','text-anchor':'middle'},svg,'tail span 470');
+  el('text',{x:cx+bh/2+10,y:tteY-6,fill:'#5f687d','font-size':11.5},svg,'elevator 40 mm');
+  el('text',{x:cx+span/2-350*s0,y:wteY+16,fill:'#5f687d','font-size':11.5},svg,'aileron 45 × ~350');
+})();
+</script>
+<details class="yt"><summary><span class="yl">Your turn</span>Redraw this three-view at 1:5 on paper, adding the rudder outline. Does the finished plane fit your building board &mdash; and your car?</summary><div class="ans">Span 1470 mm at 1:5 is 294 mm on paper. If the full-size answer is &ldquo;no&rdquo;, now is the moment to know: a two-piece wing with a joiner tube costs 40 g and saves the hatchback.</div></details>
+  <div class="caveat"><b>Accuracy note</b>
+This guide was drafted with AI assistance and reviewed by a human, but it will contain mistakes.
+Treat every number as a starting point, not gospel: verify against the linked references and your
+own measurements before you cut material or fly. Spotted an inaccuracy? Please open an issue or
+pull request at <a href="https://github.com/akanwar/learnrcfixedwing">github.com/akanwar/learnrcfixedwing</a>
+— corrections are exactly why this lives on GitHub.</div>
+
+  <div class="pager"><a href="chapter-03.html"><span class="lab">&larr; Previous</span>Chapter 3 — Tail & Balance</a><a class="next" href="chapter-05.html"><span class="lab">Next &rarr;</span>Chapter 5 — Understand Airfoils</a></div>
+  <div class="foot">Content CC BY 4.0 &middot; Code MIT &middot; <a href="https://github.com/akanwar/learnrcfixedwing">github.com/akanwar/learnrcfixedwing</a></div>
+</div>
+</div>
+</body>
+</html>

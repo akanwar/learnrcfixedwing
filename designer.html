@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><rect width=%27100%27 height=%27100%27 rx=%2718%27 fill=%27%2314223f%27/><path d=%27M50 18 L56 34 L88 46 L88 56 L56 52 L54 74 L66 82 L66 88 L50 84 L34 88 L34 82 L46 74 L44 52 L12 56 L12 46 L44 34 Z%27 fill=%27%23d96f24%27/></svg>">
+<title>The Design Calculator — Learn R/C Fixed Wing</title>
+<meta name="description" content="Interactive R/C airplane design calculator: weight, speed and span in — a dimensioned three-view, tail sizes, and tradeoff warnings out.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="hangar.css">
+<style>
+  .panel{background:var(--panel); border:1px solid var(--rule); border-radius:8px; padding:16px 20px; margin:14px 0;}
+  .inrow{display:grid; grid-template-columns:200px 1fr 96px; gap:14px; align-items:center; margin:10px 0;}
+  .inrow label{font-weight:600; font-size:14.5px;}
+  .inrow label small{display:block; font-weight:400; color:var(--muted); font-size:11.5px;}
+  .inrow input[type=range]{width:100%; accent-color:var(--blue);}
+  .inrow .val{font-family:'IBM Plex Mono',monospace; font-size:14px; text-align:right;
+    border:1px solid var(--rule); border-radius:4px; padding:5px 8px; background:#f4f7fc;}
+  details.adv{margin:10px 0;} details.adv summary{cursor:pointer; font-family:'IBM Plex Mono',monospace;
+    font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--blue); font-weight:700;}
+  .warnbox{border-radius:8px; padding:9px 14px; margin:8px 0; font-size:14.5px; border:1px solid;}
+  .w-bad{background:#fdf2ef; border-color:var(--red);} .w-bad::before{content:"⚠ "; color:var(--red); font-weight:700;}
+  .w-note{background:#fdf6e8; border-color:var(--gold);} .w-note::before{content:"◆ "; color:var(--gold);}
+  .w-good{background:#eef7f1; border-color:var(--green);} .w-good::before{content:"✓ "; color:var(--green); font-weight:700;}
+  .numgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(168px,1fr)); gap:10px; margin:12px 0;}
+  .num{background:var(--panel); border:1px solid var(--rule); border-radius:8px; padding:9px 12px;}
+  .num .l{font-family:'IBM Plex Mono',monospace; font-size:9.5px; letter-spacing:.09em; text-transform:uppercase; color:var(--muted);}
+  .num .v{font-family:'IBM Plex Mono',monospace; font-size:17px; font-weight:700; color:var(--blueprint);}
+  .num .u{font-size:11px; color:var(--muted);}
+  #threeview{width:100%; height:auto; display:block;}
+  .presets{display:flex; gap:8px; flex-wrap:wrap; margin:6px 0 2px;}
+  .presets button{font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:.05em;
+    border:1.5px solid var(--rule); background:var(--panel); border-radius:20px; padding:5px 14px; cursor:pointer;}
+  .presets button:hover{border-color:var(--blue); color:var(--blue);}
+</style>
+</head>
+<body>
+<div class="sheet">
+<div class="frame">
+  <div class="hqbar"><a href="index.html">⌂ The Hangar</a><div class="doc">DWG NO. RC-FW-100 · THE DESIGN CALCULATOR</div></div>
+  <div class="kicker">Interactive tool</div>
+  <h1>The Design Calculator</h1>
+  <p class="lead">Three honest inputs — how heavy, how fast, how big — and the whole airplane follows.
+  Drag the sliders and watch the three-view, the numbers, and the tradeoffs move together.
+  This is chapters 1–4 running live.</p>
+
+  <div class="panel">
+    <div class="presets">
+      <span class="dim" style="font-size:12px; align-self:center;">Presets:</span>
+      <button data-p="1500,12,1470">The book's trainer</button>
+      <button data-p="800,9,1000">Park flyer</button>
+      <button data-p="2500,18,1600">Sport</button>
+      <button data-p="1200,8,2000">Glider-ish</button>
+    </div>
+    <div class="inrow"><label>All-up weight <small>with battery — be honest</small></label>
+      <input type="range" id="in_m" min="300" max="4000" step="25" value="1500">
+      <div class="val"><span id="v_m">1500</span> g</div></div>
+    <div class="inrow"><label>Cruise speed <small>how fast you want to fly most of the time</small></label>
+      <input type="range" id="in_v" min="6" max="28" step="0.5" value="12">
+      <div class="val"><span id="v_v">12</span> m/s</div></div>
+    <div class="inrow"><label>Wingspan <small>rough — the calculator sets chord from it</small></label>
+      <input type="range" id="in_b" min="600" max="2600" step="10" value="1470">
+      <div class="val"><span id="v_b">1470</span> mm</div></div>
+    <details class="adv"><summary>Advanced overrides</summary>
+      <div class="inrow"><label>Aspect ratio <small>span² ÷ area — long vs stubby</small></label>
+        <input type="range" id="in_ar" min="4" max="12" step="0.1" value="6.5">
+        <div class="val"><span id="v_ar">6.5</span></div></div>
+      <div class="inrow"><label>C<sub>L</sub>max <small>wing max lift coefficient</small></label>
+        <input type="range" id="in_clmax" min="0.8" max="1.6" step="0.05" value="1.1">
+        <div class="val"><span id="v_clmax">1.10</span></div></div>
+      <div class="inrow"><label>Tail arm ÷ span <small>CG to tail quarter-chord</small></label>
+        <input type="range" id="in_lf" min="0.30" max="0.60" step="0.01" value="0.45">
+        <div class="val"><span id="v_lf">0.45</span></div></div>
+      <div class="inrow"><label>Tail volume V<sub>h</sub> <small>0.50–0.60 forgiving</small></label>
+        <input type="range" id="in_vh" min="0.30" max="0.70" step="0.01" value="0.55">
+        <div class="val"><span id="v_vh">0.55</span></div></div>
+      <div class="inrow"><label>Fin volume V<sub>v</sub> <small>0.035–0.05 good damping</small></label>
+        <input type="range" id="in_vv" min="0.02" max="0.06" step="0.002" value="0.04">
+        <div class="val"><span id="v_vv">0.040</span></div></div>
+      <div class="inrow"><label>Power density <small>W per kg — trainer 130–160</small></label>
+        <input type="range" id="in_pd" min="90" max="350" step="5" value="150">
+        <div class="val"><span id="v_pd">150</span> W/kg</div></div>
+      <div class="inrow"><label>Span efficiency e <small>for induced drag</small></label>
+        <input type="range" id="in_e" min="0.6" max="0.95" step="0.01" value="0.8">
+        <div class="val"><span id="v_e">0.80</span></div></div>
+    </details>
+  </div>
+
+  <h2>The airplane you just described</h2>
+  <figure><svg id="threeview" viewBox="0 0 760 560" xmlns="http://www.w3.org/2000/svg"></svg>
+  <figcaption>Top view, drawn to scale from your inputs. Dimensions in millimetres. CG shown at 25% chord — the conservative maiden position.</figcaption></figure>
+
+  <div class="numgrid" id="numbers"></div>
+
+  <h2>Tradeoffs — read before you build</h2>
+  <div id="warnings"></div>
+
+  <h2>Where your design sits</h2>
+  <figure><svg id="curve" viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg"></svg>
+  <figcaption>Stall speed vs wing loading at your C<sub>L</sub>max. The dot is your design; the shaded band is classic trainer territory.</figcaption></figure>
+
+  <div class="tip">The chain behind every number here is derived in <a href="chapter-02.html">chapter 2</a> (wing),
+  <a href="chapter-03.html">chapter 3</a> (tail), and the <a href="mathshelf.html">math shelf</a> (all of it, from L = W up).
+  When the calculator surprises you, go find out why — that's the whole game.</div>
+
+  <div class="caveat"><b>Accuracy note</b>
+This guide was drafted with AI assistance and reviewed by a human, but it will contain mistakes.
+Treat every number as a starting point, not gospel: verify against the linked references and your
+own measurements before you cut material or fly. Spotted an inaccuracy? Please open an issue or
+pull request at <a href="https://github.com/akanwar/learnrcfixedwing">github.com/akanwar/learnrcfixedwing</a>
+— corrections are exactly why this lives on GitHub.</div>
+
+  <div class="pager">
+    <a href="chapter-04.html"><span class="lab">See it worked by hand</span>Chapter 4 — The Worked Trainer</a>
+    <a class="next" href="worksheet.html"><span class="lab">Commit to paper</span>The Design Worksheet →</a>
+  </div>
+  <div class="foot">Content CC BY 4.0 · Code MIT · <a href="https://github.com/akanwar/learnrcfixedwing">github.com/akanwar/learnrcfixedwing</a></div>
+</div>
+</div>
+<script src="designer.js"></script>
+</body>
+</html>
