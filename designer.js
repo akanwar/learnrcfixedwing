@@ -65,12 +65,13 @@ function el(tag, attrs, parent, text){
 var C = {navy:'#1d2534', blue:'#2a7de1', green:'#2f8f5b', orange:'#d96f24', red:'#c0392b',
          muted:'#5f687d', wing:'#e8f1fd', tail:'#eaf6ef', ail:'#fde8d2', fus:'#f4f7fc'};
 
-function dim(svg, x1,y1,x2,y2,label,color,side){
+function dim(svg, x1,y1,x2,y2,label,color,side,xoff){
   el('line', {x1:x1,y1:y1,x2:x2,y2:y2, stroke:color, 'stroke-width':1.5,
     'marker-start':'url(#a2)','marker-end':'url(#a1)'}, svg);
-  var mx=(x1+x2)/2, my=(y1+y2)/2;
+  var mx=(x1+x2)/2+(xoff||0), my=(y1+y2)/2;
   var t = el('text', {x:mx, y:my + (side==='below'?16:-7), fill:color, 'font-size':13,
-    'font-weight':'bold', 'text-anchor':'middle'}, svg, label);
+    'font-weight':'bold', 'text-anchor':'middle',
+    'paint-order':'stroke', stroke:'#fff', 'stroke-width':4}, svg, label);
   if (x1===x2){ t.setAttribute('x', x1 + (side==='left'?-8:8));
     t.setAttribute('y', my+4); t.setAttribute('text-anchor', side==='left'?'end':'start'); }
 }
@@ -84,11 +85,11 @@ function drawPlane(r){
     el('path', {d:'M0,0 L10,5 L0,10 z', fill:'currentColor'}, mk);
     mk.style.color = 'inherit';
   });
-  var Wpx=760, Hpx=560, cx=390;
+  var Wpx=760, Hpx=740, cx=390;
   var span=r.b*1000, chord=r.c*1000, arm=r.l*1000, bh=r.bh*1000, ch=r.ch*1000;
   var noseLen = 0.22*span < 180 ? 0.22*span : 180;
   var totalLen = noseLen + chord + arm + ch*0.6;
-  var s = Math.min(560/span, 440/totalLen);
+  var s = Math.min(500/span, 420/totalLen);
   var noseY=70, wleY=noseY+noseLen*s, wteY=wleY+chord*s;
   var tleY=wleY+0.25*chord*s+arm*s-0.25*ch*s, tteY=tleY+ch*s, tailEnd=tteY+6;
   // fuselage
@@ -118,7 +119,7 @@ function drawPlane(r){
     'CG — '+(r.cg*1000).toFixed(0)+' mm aft of LE');
   // dimensions
   var dg1 = el('g', {color:C.blue}, svg);
-  dim(dg1, cx-span*s/2, wleY-24, cx+span*s/2, wleY-24, 'span '+span.toFixed(0), C.blue);
+  dim(dg1, cx-span*s/2, wleY-24, cx+span*s/2, wleY-24, 'span '+span.toFixed(0), C.blue, null, -80);
   var dg2 = el('g', {color:C.blue}, svg);
   dim(dg2, cx+span*s/2+26, wleY, cx+span*s/2+26, wteY, 'chord '+chord.toFixed(0), C.blue, 'right');
   var dg3 = el('g', {color:C.green}, svg);
@@ -129,6 +130,45 @@ function drawPlane(r){
     'elevator '+(r.elev_c*1000).toFixed(0)+' mm');
   el('text', {x:cx+span*s/2-ailB*s, y:wteY+16, fill:C.muted,'font-size':11.5}, svg,
     'aileron '+(r.ail_c*1000).toFixed(0)+' × '+ailB.toFixed(0));
+
+  // ---- side + front views ----
+  var secTop=572, yb=secTop+95;
+  el('line', {x1:30,y1:secTop-14,x2:730,y2:secTop-14, stroke:'#e2e8f2','stroke-width':1.5}, svg);
+  el('line', {x1:390,y1:secTop,x2:390,y2:secTop+160, stroke:'#e2e8f2','stroke-width':1.5}, svg);
+  el('text', {x:40,y:secTop+10, fill:C.muted,'font-size':11,'font-weight':'bold','letter-spacing':1}, svg, 'SIDE VIEW');
+  el('text', {x:412,y:secTop+10, fill:C.muted,'font-size':11,'font-weight':'bold','letter-spacing':1}, svg, 'FRONT VIEW');
+  // side view: true length proportions
+  var hv=r.hv*1000, cv=r.cv*1000;
+  var s2=Math.min(300/totalLen, 70/hv);
+  var xn=50, xt=xn+totalLen*s2;
+  el('path', {d:'M'+xn+','+(yb-10)+' L'+xt+','+(yb-7)+' L'+xt+','+(yb+5)+
+     ' L'+(xn+0.2*totalLen*s2)+','+(yb+11)+' L'+xn+','+(yb+7)+' Z',
+     fill:C.fus, stroke:C.navy,'stroke-width':2}, svg);
+  el('line', {x1:xn-8,y1:yb-26,x2:xn-8,y2:yb+26, stroke:C.muted,'stroke-width':2.5}, svg);
+  var xw0=xn+noseLen*s2, xw1=xw0+chord*s2, xwm=(xw0+xw1)/2;
+  el('path', {d:'M'+xw0+','+(yb-8)+' Q'+xwm+','+(yb-10-Math.max(14,0.16*chord*s2))+' '+(xw1-6)+','+(yb-9)+
+     ' Q'+xwm+','+(yb-1)+' '+xw0+','+(yb-8)+' Z', fill:C.wing, stroke:C.blue,'stroke-width':2}, svg);
+  el('rect', {x:xt-ch*s2, y:yb-12, width:ch*s2, height:5, fill:C.tail, stroke:C.green,'stroke-width':1.5}, svg);
+  el('path', {d:'M'+(xt-1.55*cv*s2)+','+(yb-12)+' L'+(xt-0.95*cv*s2)+','+(yb-12-hv*s2)+
+     ' L'+(xt-0.3*cv*s2)+','+(yb-12-hv*s2)+' L'+(xt-0.05*cv*s2)+','+(yb-12)+' Z',
+     fill:C.tail, stroke:C.green,'stroke-width':2}, svg);
+  el('circle', {cx:xw0+0.25*chord*s2, cy:yb-5, r:5, fill:C.red}, svg);
+  var dg5 = el('g', {color:C.green}, svg);
+  dim(dg5, xt+14, yb-12-hv*s2, xt+14, yb-12, '', C.green);
+  el('text', {x:xt-0.8*cv*s2, y:yb+30, fill:C.green,'font-size':11.5,'font-weight':'bold','text-anchor':'middle'}, svg,
+    'fin '+hv.toFixed(0)+' tall × '+cv.toFixed(0));
+  // front view: dihedral exaggerated ~2.5x for clarity
+  var xcf=570, s3=300/span, hs=span*s3/2, rise=Math.tan(3*Math.PI/180)*(span/2)*s3*2.5;
+  var tipmm=(Math.tan(3*Math.PI/180)*span/2).toFixed(0);
+  el('path', {d:'M'+(xcf-12)+','+(yb-3)+' L'+(xcf-hs)+','+(yb-3-rise)+' L'+(xcf-hs)+','+(yb+3-rise)+
+     ' L'+(xcf-12)+','+(yb+3)+' Z', fill:C.wing, stroke:C.blue,'stroke-width':1.8}, svg);
+  el('path', {d:'M'+(xcf+12)+','+(yb-3)+' L'+(xcf+hs)+','+(yb-3-rise)+' L'+(xcf+hs)+','+(yb+3-rise)+
+     ' L'+(xcf+12)+','+(yb+3)+' Z', fill:C.wing, stroke:C.blue,'stroke-width':1.8}, svg);
+  el('path', {d:'M'+(xcf-4)+','+(yb-13)+' L'+xcf+','+(yb-13-Math.max(24,hv*s3))+' L'+(xcf+4)+','+(yb-13)+' Z',
+     fill:C.tail, stroke:C.green,'stroke-width':2}, svg);
+  el('circle', {cx:xcf, cy:yb, r:12, fill:C.fus, stroke:C.navy,'stroke-width':2.5}, svg);
+  el('text', {x:xcf, y:yb+44, fill:C.muted,'font-size':11,'font-style':'italic','text-anchor':'middle'}, svg,
+    'dihedral ≈ 3° — tips ≈'+tipmm+' mm above roots (exaggerated here)');
 }
 
 function drawCurve(r, inp){

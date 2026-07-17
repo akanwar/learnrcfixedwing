@@ -59,8 +59,8 @@ wattmeter &mdash; cowling on.</div>
 <h2>Step 5 &mdash; the three-view</h2>
 <p>The same numbers, drawn. This is the payoff of the whole chapter &mdash; and the
 <a href="designer.html">Design Calculator</a> will draw yours the same way.</p>
-<figure><svg id="tv" viewBox="0 0 760 560" xmlns="http://www.w3.org/2000/svg"></svg>
-<figcaption>1500 g &middot; 33.3 dm&sup2; &middot; AR 6.5 &middot; V<sub>h</sub> 0.55 &middot; V<sub>v</sub> 0.04 &middot; dimensions in mm.</figcaption></figure>
+<figure><svg id="tv" viewBox="0 0 760 470" xmlns="http://www.w3.org/2000/svg"></svg>
+<figcaption>Top view. 1500 g &middot; 33.3 dm&sup2; &middot; AR 6.5 &middot; V<sub>h</sub> 0.55 &middot; V<sub>v</sub> 0.04 &middot; dimensions in mm.</figcaption></figure>
 <script>
 (function(){
   var NS='http://www.w3.org/2000/svg', svg=document.getElementById('tv');
@@ -88,7 +88,8 @@ wattmeter &mdash; cowling on.</div>
   el('circle',{cx:cx,cy:cgY,r:7,fill:'#c0392b'},svg);
   el('text',{x:cx+14,y:cgY+4,fill:'#c0392b','font-size':13,'font-weight':'bold'},svg,'CG — 56 mm aft of LE');
   el('line',{x1:cx-span/2,y1:wleY-22,x2:cx+span/2,y2:wleY-22,stroke:'#2a7de1','stroke-width':1.5,'marker-start':'url(#d1)','marker-end':'url(#d1)'},svg);
-  el('text',{x:cx,y:wleY-30,fill:'#2a7de1','font-size':13,'font-weight':'bold','text-anchor':'middle'},svg,'span 1470');
+  el('text',{x:cx-78,y:wleY-30,fill:'#2a7de1','font-size':13,'font-weight':'bold','text-anchor':'middle',
+    'paint-order':'stroke',stroke:'#fff','stroke-width':4},svg,'span 1470');
   el('line',{x1:cx+span/2+26,y1:wleY,x2:cx+span/2+26,y2:wteY,stroke:'#2a7de1','stroke-width':1.5,'marker-start':'url(#d1)','marker-end':'url(#d1)'},svg);
   el('text',{x:cx+span/2+34,y:(wleY+wteY)/2+4,fill:'#2a7de1','font-size':13,'font-weight':'bold'},svg,'chord 226');
   el('line',{x1:cx-span/2-30,y1:cgY,x2:cx-span/2-30,y2:tleY+0.25*ch,stroke:'#2f8f5b','stroke-width':1.5,'marker-start':'url(#d2)','marker-end':'url(#d2)'},svg);
@@ -99,6 +100,44 @@ wattmeter &mdash; cowling on.</div>
   el('text',{x:cx+span/2-350*s0,y:wteY+16,fill:'#5f687d','font-size':11.5},svg,'aileron 45 × ~350');
 })();
 </script>
+<figure><svg viewBox="0 0 760 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Side view with fin dimension and front view showing dihedral">
+<defs>
+<marker id="tv-g" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto-start-reverse"><path d="M0,0 L8,4 L0,8 Z" fill="#2f8f5b"/></marker>
+</defs>
+<line x1="390" y1="22" x2="390" y2="268" stroke="#e2e8f2" stroke-width="1.5"/>
+<text x="40" y="34" fill="#5f687d" font-size="11" font-weight="bold" letter-spacing="1">SIDE VIEW &mdash; FIN 240 TALL, 125 CHORD</text>
+<text x="420" y="34" fill="#5f687d" font-size="11" font-weight="bold" letter-spacing="1">FRONT VIEW &mdash; DIHEDRAL &#8776; 3&#176; PER PANEL</text>
+<g transform="translate(28,80) scale(0.46)">
+<path d="M60,90 L560,85 L700,80 L700,117 L145,140 L60,130 Z" fill="#f4f7fc" stroke="#1d2534" stroke-width="3"/>
+<path d="M60,94 L38,110 L60,126 Z" fill="#dfe5ef" stroke="#1d2534" stroke-width="2"/>
+<line x1="33" y1="52" x2="33" y2="168" stroke="#5f687d" stroke-width="4"/>
+<path d="M325.0,90.0 L330.7,73.7 L340.2,66.4 L355.4,58.8 L382.0,50.9 L420.0,44.0 L439.0,42.5 L477.0,44.0 L515.0,48.2 L553.0,54.7 L591.0,62.6 L629.0,71.4 L667.0,80.1 L705.0,89.2 L705.0,90.0 L667.0,90.0 L629.0,92.7 L591.0,94.6 L553.0,96.8 L515.0,99.1 L477.0,101.4 L439.0,103.7 L420.0,104.4 L382.0,106.0 L355.4,105.6 L340.2,103.7 L330.7,100.6 L325.0,90.0 Z" fill="#e8f1fd" stroke="#2a7de1" stroke-width="3"/>
+<path d="M515,85 L638,84 L638,102 L515,101 Z" fill="#eaf6ef" stroke="#0f8a80" stroke-width="3"/>
+<path d="M638,84 L709,82 L709,101 L638,102 Z" fill="#d5ecdd" stroke="#0f8a80" stroke-width="3"/>
+<path d="M540,85 L608,20 L632,20 L632,84 Z" fill="#eaf6ef" stroke="#2f8f5b" stroke-width="3"/>
+<path d="M632,20 L691,28 L697,84 L632,84 Z" fill="#d5ecdd" stroke="#2f8f5b" stroke-width="3"/>
+<line x1="443" y1="135" x2="443" y2="162" stroke="#1d2534" stroke-width="3"/>
+<circle cx="443" cy="180" r="20" fill="#fff" stroke="#1d2534" stroke-width="3"/>
+<circle cx="622" cy="122" r="11" fill="#fff" stroke="#1d2534" stroke-width="2.5"/>
+<circle cx="360" cy="104" r="8" fill="#c0392b"/>
+</g>
+<line x1="356" y1="89" x2="356" y2="134" stroke="#2f8f5b" stroke-width="1.5" marker-start="url(#tv-g)" marker-end="url(#tv-g)"/>
+<text x="362" y="116" fill="#2f8f5b" font-size="12" font-weight="bold">240</text>
+<text x="40" y="230" fill="#5f687d" font-size="11" font-style="italic">a straight datum and a square fin &mdash; chapter 6</text>
+<circle cx="575" cy="170" r="13" fill="#f4f7fc" stroke="#1d2534" stroke-width="2.5"/>
+<path d="M571,158 L575,128 L579,158 Z" fill="#eaf6ef" stroke="#2f8f5b" stroke-width="2"/>
+<path d="M562,166 L438,146 L438,152 L562,172 Z" fill="#e8f1fd" stroke="#2a7de1" stroke-width="1.8"/>
+<path d="M588,166 L712,146 L712,152 L588,172 Z" fill="#e8f1fd" stroke="#2a7de1" stroke-width="1.8"/>
+<line x1="555" y1="181" x2="537" y2="196" stroke="#1d2534" stroke-width="2"/>
+<line x1="595" y1="181" x2="613" y2="196" stroke="#1d2534" stroke-width="2"/>
+<circle cx="535" cy="202" r="8" fill="#fff" stroke="#1d2534" stroke-width="2"/>
+<circle cx="615" cy="202" r="8" fill="#fff" stroke="#1d2534" stroke-width="2"/>
+<line x1="440" y1="212" x2="710" y2="212" stroke="#ccd5e4" stroke-width="1.5" stroke-dasharray="6 5"/>
+<line x1="562" y1="168" x2="452" y2="168" stroke="#5f687d" stroke-width="1.2" stroke-dasharray="3 3"/>
+<path d="M480,168 A40,40 0 0 1 477,157" fill="none" stroke="#0f8a80" stroke-width="1.5"/>
+<text x="452" y="188" fill="#0f8a80" font-size="11" font-weight="bold">dihedral &#8776; 3&#176;</text>
+<text x="598" y="118" fill="#5f687d" font-size="10.5" font-style="italic">tips ride &#8776; 40 mm<tspan x="598" dy="14">above the roots</tspan></text>
+</svg><figcaption>Side and front views complete the drawing: fin 240 mm tall &times; 125 mm average chord, and &asymp;3&deg; of dihedral per panel putting each tip about 40 mm above the root.</figcaption></figure>
 <details class="yt"><summary><span class="yl">Your turn</span>Redraw this three-view at 1:5 on paper, adding the rudder outline. Does the finished plane fit your building board &mdash; and your car?</summary><div class="ans">Span 1470 mm at 1:5 is 294 mm on paper. If the full-size answer is &ldquo;no&rdquo;, now is the moment to know: a two-piece wing with a joiner tube costs 40 g and saves the hatchback.</div></details>
   <div class="caveat"><b>Accuracy note</b>
 This guide was drafted with AI assistance and reviewed by a human, but it will contain mistakes.
