@@ -50,7 +50,7 @@
     <div class="presets">
       <span class="dim" style="font-size:12px; align-self:center;">Presets:</span>
       <button data-p="1500,12,1470">The book's trainer</button>
-      <button data-p="800,9,1000">Park flyer</button>
+      <button data-p="600,9,1100">Park flyer</button>
       <button data-p="2500,18,1600">Sport</button>
       <button data-p="1200,8,2000">Glider-ish</button>
     </div>
@@ -79,7 +79,7 @@
       <div class="inrow"><label>Fin volume V<sub>v</sub> <small>0.035–0.05 good damping</small></label>
         <input type="range" id="in_vv" min="0.02" max="0.06" step="0.002" value="0.04">
         <div class="val"><span id="v_vv">0.040</span></div></div>
-      <div class="inrow"><label>Power density <small>W per kg — trainer 130–160</small></label>
+      <div class="inrow"><label>Power density <small>W per kg — trainer 100–160, happy at the low end</small></label>
         <input type="range" id="in_pd" min="90" max="350" step="5" value="150">
         <div class="val"><span id="v_pd">150</span> W/kg</div></div>
       <div class="inrow"><label>Span efficiency e <small>for induced drag</small></label>
@@ -93,6 +93,8 @@
   <figcaption>Drawn to scale from your inputs: top view with dimensions in millimetres, plus side and front views. CG shown at 25% chord &mdash; the conservative maiden position.</figcaption></figure>
 
   <div class="numgrid" id="numbers"></div>
+  <div class="presets"><button id="copy_summary">Copy design summary</button>
+    <span class="dim" style="font-size:12px; align-self:center;">— paste it into the <a href="worksheet.html">worksheet</a> or your build log. Your slider settings are saved in this browser.</span></div>
 
   <h2>Tradeoffs — read before you build</h2>
   <div id="warnings"></div>

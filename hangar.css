@@ -131,7 +131,10 @@ svg text{font-family:'IBM Plex Mono',monospace;}
 @media print{
   body{background:#fff;} .sheet{padding:0; max-width:none;} .frame{border:none; box-shadow:none; padding:0;}
   .frame::before{display:none;} .hqbar,.pager,.done-btn{display:none !important;}
-  details.yt{display:none;} a{color:inherit; text-decoration:none;}
+  /* print the "Your turn" questions but keep the answers hidden — exercises survive
+     on paper without spoiling themselves, even if left open on screen */
+  details.yt{break-inside:avoid;} details.yt .ans{display:none;}
+  a{color:inherit; text-decoration:none;}
 }
 
 /* AI-accuracy caveat — appears on every page */
