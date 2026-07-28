@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><rect width=%27100%27 height=%27100%27 rx=%2718%27 fill=%27%2314223f%27/><path d=%27M50 18 L56 34 L88 46 L88 56 L56 52 L54 74 L66 82 L66 88 L50 84 L34 88 L34 82 L46 74 L44 52 L12 56 L12 46 L44 34 Z%27 fill=%27%232a7de1%27/></svg>">
+<title>Deep Dive 3 — Advanced Structures &amp; Composite Techniques — Learn R/C Fixed Wing</title>
+<meta name="description" content="Size a wing spar with real numbers: load cases, bending moments, spruce caps vs carbon tubes, shear webs, D-boxes, and where glass cloth earns its weight.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="hangar.css">
+</head>
+<body>
+<div class="sheet">
+<div class="frame">
+  <div class="hqbar"><a href="index.html">&#8962; The Hangar</a><div class="doc">DEEP DIVE 3 · STRUCTURES</div></div>
+  <div class="kicker">Deep dive 3 · stretch material</div>
+  <h1>Advanced Structures &amp; Composite Techniques</h1>
+  <p class="lead">Chapter 6 taught you to build straight and stiff. This volume puts numbers on <i>strong</i>: how big the loads really are, how to size a spar to carry them, and where a little fibreglass buys a lot of airplane.</p>
+
+<h2>How hard does the air actually pull?</h2>
+<p>In level flight the wing carries exactly the weight. In a firm pull-up or a gust it carries a multiple
+of it — the load factor <b>n</b>. Sport models are conventionally designed to about <b>6&thinsp;g limit</b>
+(you may fly it there) with a &times;1.5 factor to <b>9&thinsp;g ultimate</b> (it breaks somewhere beyond).
+For the 1.5 kg trainer, a 6&thinsp;g pull means the wing is lifting 9 kg.</p>
+<p>Lift is spread across the span (roughly elliptically), so each wing panel behaves like a cantilever with
+its load centred about 42% of the way out. That sets the <b>root bending moment</b> — the number the spar
+must survive:</p>
+<div class="eq">M<sub>root</sub> = n &middot; W/2 &middot; 0.424 &middot; b/2 = 6 &times; 14.7/2 &times; 0.424 &times; 0.735 &asymp; <b>13.8 N·m</b> &nbsp;&nbsp;(ultimate: &times;1.5 &asymp; 20.7 N·m)</div>
+
+<h2>The spar as an I-beam</h2>
+<figure><svg viewBox="0 0 760 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Wing cross-section at the spar: top cap in compression, bottom cap in tension, vertical shear web between them; lift arrows below">
+<path d="M80,125 C130,60 300,42 430,58 C560,74 660,105 700,125 C660,138 520,158 380,158 C240,158 130,145 80,125 Z" fill="#eef3fb" stroke="#2a7de1" stroke-width="2.5"/>
+<rect x="288" y="55" width="44" height="12" fill="#2f8f5b"/>
+<rect x="288" y="146" width="44" height="12" fill="#2f8f5b"/>
+<rect x="303" y="67" width="14" height="79" fill="#d3dced" stroke="#5f687d" stroke-width="1"/>
+<text x="345" y="52" fill="#2f8f5b" font-size="12" font-weight="bold">top cap — compression</text>
+<text x="345" y="172" fill="#2f8f5b" font-size="12" font-weight="bold">bottom cap — tension</text>
+<text x="428" y="112" fill="#5f687d" font-size="12">shear web — keeps the caps apart</text>
+<line x1="424" y1="108" x2="320" y2="106" stroke="#5f687d" stroke-width="1"/>
+<line x1="282" y1="61" x2="282" y2="152" stroke="#d96f24" stroke-width="1.4" stroke-dasharray="4 3"/>
+<text x="268" y="110" fill="#d96f24" font-size="11.5" font-weight="bold" text-anchor="end">h &asymp; 22 mm</text>
+<g stroke="#8e44ad" stroke-width="2">
+<line x1="170" y1="215" x2="170" y2="185"/><line x1="310" y1="215" x2="310" y2="185"/><line x1="450" y1="215" x2="450" y2="185"/><line x1="590" y1="215" x2="590" y2="185"/>
+</g>
+<g fill="#8e44ad"><path d="M165,190 L170,180 L175,190 Z"/><path d="M305,190 L310,180 L315,190 Z"/><path d="M445,190 L450,180 L455,190 Z"/><path d="M585,190 L590,180 L595,190 Z"/></g>
+<text x="380" y="238" fill="#8e44ad" font-size="12" font-weight="bold" text-anchor="middle">lift, all along the span — the spar gathers it toward the root</text>
+</svg><figcaption>Bending resolves into a force couple: top cap squeezed, bottom cap stretched, web carrying the shear between them. Deep wings win — the force falls as the caps move apart.</figcaption></figure>
+<p>Bending in a two-cap spar is just a force couple: cap force = moment &divide; cap separation. The
+trainer&rsquo;s wing is 12% thick on a 226 mm chord &rarr; 27 mm deep; with caps inside the skins their
+centres sit &asymp;22 mm apart:</p>
+<div class="eq">F<sub>cap</sub> = 13.8 / 0.022 &asymp; <b>630 N</b> — sixty-four kilograms of pull on pieces of wood you can flex with two fingers</div>
+<p>Now check a real cap. Spruce breaks at roughly 70 MPa along the grain; a 6&times;3 mm cap has 18 mm&sup2;:</p>
+<div class="eq">&sigma; = 630 N / 18 mm&sup2; &asymp; <b>35 MPa</b> &rarr; safety factor &asymp; 2 at 6&thinsp;g, &asymp;1.3 at the 9&thinsp;g ultimate — a sensible model spar</div>
+<div class="tip"><b>Design moves, in order of value:</b> deepen the spar (h is the cheapest strength there
+is — it&rsquo;s why chapter 5 called thickness &ldquo;room for a strong spar&rdquo;), then widen the caps
+toward the root where M peaks, then taper everything toward the tip where M &rarr; 0. The shear web is not
+optional: without it the caps are just two sticks that fold independently. Balsa web, grain vertical.</div>
+<p>The carbon alternative — a 10 mm &times; 8 mm pultruded tube as a one-piece spar:</p>
+<div class="eq">I = &pi;(D&#8308;&minus;d&#8308;)/64 = 2.9&times;10<sup>&minus;10</sup> m&#8308; &nbsp;&rarr;&nbsp; &sigma; = M&middot;c/I = 13.8 &times; 0.005 / 2.9&times;10<sup>&minus;10</sup> &asymp; <b>238 MPa</b> vs &asymp;600+ MPa for pultruded carbon &rarr; SF &asymp; 2.5</div>
+<p class="dim">The same tube doubles as the wing joiner on a two-piece wing — and Deep Dive 4 will bolt a
+printed wing around exactly this spar. Carbon fails suddenly and splinters; wear eye protection cutting it,
+and never trust a tube that has already taken a hit.</p>
+<details class="yt"><summary><span class="yl">Your turn</span>Scale the trainer to 2 kg at the same span. What happens to the cap stress — and what is the cheapest fix?</summary><div class="ans">M scales with weight: 13.8 &times; 2/1.5 &asymp; 18.3 N&middot;m &rarr; cap force &asymp; 835 N &rarr; &sigma; &asymp; 46 MPa: your 6&thinsp;g safety factor drops to 1.5 and ultimate is no longer covered. Cheapest fix is geometric, not material: a 14% thick section (or a deeper spar bay) moves the caps to &asymp;26 mm and brings stress back to &asymp;39 MPa — before you add a single gram of wood.</div></details>
+
+<h2>Torsion and the D-box</h2>
+<p>Bending is only half the job. Aileron loads and the airfoil&rsquo;s pitching moment (chapter 5 —
+remember the S1223&rsquo;s big C<sub>m</sub>) twist the wing, and a twisted wing flutters or reverses its
+ailerons at speed. Skins fight twist, and <b>closed cells</b> fight it best: sheet the leading edge back to
+the spar, top and bottom, and the skin + web form a closed &ldquo;D&rdquo; tube — stiffness jumps an order
+of magnitude over an open structure. That is why so many classic wings are D-boxed even when the aft bays
+are open ribs and covering.</p>
+
+<h2>Composites where they count</h2>
+<p>You do not need a mould shop. On a wood or foam model, cloth + epoxy is a <i>reinforcement</i>, applied
+exactly where loads concentrate:</p>
+<table>
+<tr><th>Cloth</th><th>Weight</th><th>Use</th></tr>
+<tr><td>Light glass</td><td>25&ndash;49 g/m&sup2;</td><td>sealing wood, wear surfaces, hinge-line beef-up</td></tr>
+<tr><td>Medium glass</td><td>80&ndash;110 g/m&sup2;</td><td>fuselage nose, firewall box, wing centre-section joint</td></tr>
+<tr><td>Heavy glass / carbon</td><td>160&ndash;200 g/m&sup2; (carbon 200)</td><td>landing-gear blocks, one-piece wing joins, high-stress hardpoints</td></tr>
+</table>
+<p>Working rules that save projects: mix epoxy <b>by weight</b> to the maker&rsquo;s ratio (kitchen scales,
+&plusmn;1 g); a wet layup roughly doubles the cloth weight in finished mass (80 g/m&sup2; cloth &rarr;
+&asymp;160 g/m&sup2; on the airframe), so a 2 dm&sup2; nose patch costs &asymp;3 g — cheap for what it buys;
+orient fibres <b>along the load</b> — 0&deg; spanwise for bending caps, &plusmn;45&deg; for torsion skins;
+and squeegee out every gram of resin the cloth doesn&rsquo;t need — resin-rich is heavy, not strong.
+Foam-core wings with glass skins are the same I-beam logic as the spar: skins are the caps, foam is a
+full-chord shear web.</p>
+<div class="warn">Epoxy and cut carbon are sensitising: nitrile gloves, ventilation, and a real dust mask
+when sanding cured laminate. Uncured epoxy allergies are earned once and kept for life.</div>
+<details class="yt"><summary><span class="yl">Your turn</span>Your trainer&rsquo;s wing joins in the middle with a 100 mm-wide glass wrap. Which cloth, how many grams, and which fibre direction?</summary><div class="ans">The joint carries the full root bending — this is a hardpoint, so medium-to-heavy cloth: one wrap of 160 g/m&sup2; around the 226 mm chord &times; 100 mm width &asymp; 0.045 m&sup2; &rarr; &asymp;7 g cloth, &asymp;14 g finished. Fibres mainly 0&deg; (spanwise) to bridge the join like spar caps, ideally with a &plusmn;45&deg; layer under it for torsion. Fourteen grams to make one wing from two — the best mass you&rsquo;ll ever spend.</div></details>
+
+  <div class="caveat"><b>Accuracy note</b>
+This guide was drafted with AI assistance and reviewed by a human, but it will contain mistakes.
+Treat every number as a starting point, not gospel: verify against the linked references and your
+own measurements before you cut material or fly. Spotted an inaccuracy? Please open an issue or
+pull request at <a href="https://github.com/akanwar/learnrcfixedwing">github.com/akanwar/learnrcfixedwing</a>
+— corrections are exactly why this lives on GitHub.</div>
+
+  <div class="pager"><a href="deepdive-02-propulsion.html"><span class="lab">&larr; Previous</span>Deep Dive 2 — Propulsion &amp; Prop Matching</a><a class="next" href="deepdive-04-printed.html"><span class="lab">Next &rarr;</span>Deep Dive 4 — 3D-Printed Wings</a></div>
+  <div class="foot">Content CC BY 4.0 &middot; Code MIT &middot; <a href="https://github.com/akanwar/learnrcfixedwing">github.com/akanwar/learnrcfixedwing</a></div>
+</div>
+</div>
+</body>
+</html>

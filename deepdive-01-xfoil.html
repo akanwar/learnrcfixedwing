@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><rect width=%27100%27 height=%27100%27 rx=%2718%27 fill=%27%2314223f%27/><path d=%27M50 18 L56 34 L88 46 L88 56 L56 52 L54 74 L66 82 L66 88 L50 84 L34 88 L34 82 L46 74 L44 52 L12 56 L12 46 L44 34 Z%27 fill=%27%232a7de1%27/></svg>">
+<title>Deep Dive 1 — Aerodynamic Analysis &amp; the XFOIL Workflow — Learn R/C Fixed Wing</title>
+<meta name="description" content="Run XFOIL on your own airfoil at your own Reynolds number: commands, polars, low-Re honesty, and when to escalate to XFLR5 or CFD.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="hangar.css">
+</head>
+<body>
+<div class="sheet">
+<div class="frame">
+  <div class="hqbar"><a href="index.html">&#8962; The Hangar</a><div class="doc">DEEP DIVE 1 · XFOIL WORKFLOW</div></div>
+  <div class="kicker">Deep dive 1 · stretch material</div>
+  <h1>Aerodynamic Analysis &amp; the XFOIL Workflow</h1>
+  <p class="lead">Chapter 5 chose an airfoil from tables. This volume shows you how to interrogate one yourself — polars for <i>your</i> section at <i>your</i> Reynolds number, in minutes, free — and how to know when the answer is lying to you.</p>
+
+<h2>Why the polar must be yours</h2>
+<p>Published airfoil data is usually measured or computed near Re 10&#8310;. Your trainer never gets close:</p>
+<div class="eq">Re &asymp; 68&thinsp;000 &times; V &times; c &nbsp;&rarr;&nbsp; cruise 12 m/s: <b>&asymp;185k</b> &middot; approach 10.5: <b>&asymp;162k</b> &middot; stall 8.1: <b>&asymp;125k</b></div>
+<p>Below &asymp;2&times;10&#8309; the boundary layer is part laminar, separation bubbles appear, and C<sub>L</sub>max
+and drag both move — sometimes a lot (the <a href="mathshelf.html">Math Shelf</a> covers why). So the question
+is never &ldquo;how good is this airfoil?&rdquo; but &ldquo;how good is it <b>at 125k&ndash;185k</b>?&rdquo;
+Three ways to answer, in rising order of effort:</p>
+<table>
+<tr><th>Source</th><th>What it is</th><th>Trust level</th></tr>
+<tr><td><b>UIUC low-speed tests</b></td><td>Wind-tunnel measurements at exactly our Re range (<a href="https://m-selig.ae.illinois.edu/ads.html">m-selig.ae.illinois.edu</a>)</td><td>The reference. If UIUC measured your section, believe UIUC</td></tr>
+<tr><td><b>XFOIL</b></td><td>Drela&rsquo;s panel code + boundary-layer model; runs any section at any Re in seconds</td><td>Very good below stall; optimistic near C<sub>L</sub>max at low Re</td></tr>
+<tr><td><b>airfoiltools.com</b></td><td>Pre-computed XFOIL polars online, Re 50k&ndash;1M</td><td>Same physics as XFOIL — convenient, but you can&rsquo;t change N<sub>crit</sub> or step size</td></tr>
+</table>
+
+<h2>An XFOIL session, keystroke by keystroke</h2>
+<p>XFOIL is a free command-line program (<a href="https://web.mit.edu/drela/Public/web/xfoil/">web.mit.edu/drela</a>;
+builds exist for Windows, macOS and Linux). Download your section&rsquo;s coordinates from UIUC
+(e.g. <code>s1223.dat</code>), put it next to the program, and type exactly this:</p>
+<table>
+<tr><th>You type</th><th>What happens</th></tr>
+<tr><td><code>LOAD s1223.dat</code></td><td>reads the coordinate file</td></tr>
+<tr><td><code>PANE</code></td><td>repanels the surface smoothly — always do this for UIUC files</td></tr>
+<tr><td><code>OPER</code></td><td>enters the analysis menu</td></tr>
+<tr><td><code>VISC 185000</code></td><td>viscous mode at Re = 185&thinsp;000 (your cruise — change it per case)</td></tr>
+<tr><td><code>ITER 100</code></td><td>more solver iterations; low-Re cases converge slowly</td></tr>
+<tr><td><code>PACC</code></td><td>starts polar accumulation — give it a save filename when asked</td></tr>
+<tr><td><code>ASEQ -4 14 0.5</code></td><td>sweeps angle of attack &minus;4&deg; to 14&deg; in half-degree steps</td></tr>
+<tr><td><code>PACC</code></td><td>closes the polar file; open it in any plotting tool or spreadsheet</td></tr>
+</table>
+<div class="tip"><b>If it won&rsquo;t converge</b> near stall (the numbers stop settling): that itself is
+information — the boundary layer is letting go. Take the last converged point as &ldquo;about here&rdquo;, not
+the exact stall. Repeat the whole run at 125k and 162k; three polars bracket your flight envelope.</div>
+
+<h2>Reading what comes out</h2>
+<figure><svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Two schematic plots: lift coefficient versus angle of attack showing linear range and stall, and the drag polar showing the low-drag bucket">
+<line x1="60" y1="250" x2="330" y2="250" stroke="#5f687d" stroke-width="1.5"/>
+<line x1="60" y1="250" x2="60" y2="40" stroke="#5f687d" stroke-width="1.5"/>
+<path d="M60,230 L230,90 C250,72 265,66 278,70 C290,74 300,88 310,112" fill="none" stroke="#2a7de1" stroke-width="2.5"/>
+<line x1="60" y1="230" x2="230" y2="90" stroke="#2f8f5b" stroke-width="1.2" stroke-dasharray="5 4"/>
+<text x="105" y="140" fill="#2f8f5b" font-size="11" font-weight="bold" transform="rotate(-33 105 140)">linear: &asymp;0.08&ndash;0.09 per deg (2-D &asymp;0.11)</text>
+<circle cx="272" cy="67" r="4" fill="#d96f24"/>
+<text x="253" y="52" fill="#d96f24" font-size="11.5" font-weight="bold">C&#8343;max</text>
+<text x="292" y="120" fill="#5f687d" font-size="10.5">stall</text>
+<text x="195" y="272" fill="#1d2534" font-size="11.5">angle of attack &alpha;</text>
+<text x="46" y="145" fill="#1d2534" font-size="11.5" transform="rotate(-90 46 145)">C&#8343;</text>
+<line x1="440" y1="250" x2="710" y2="250" stroke="#5f687d" stroke-width="1.5"/>
+<line x1="440" y1="250" x2="440" y2="40" stroke="#5f687d" stroke-width="1.5"/>
+<path d="M478,235 C462,190 461,140 470,105 C480,68 500,55 522,55 C560,55 610,68 668,92" fill="none" stroke="#8e44ad" stroke-width="2.5"/>
+<rect x="455" y="100" width="40" height="112" rx="6" fill="#2f8f5b" opacity="0.12"/>
+<text x="470" y="93" fill="#2f8f5b" font-size="11" font-weight="bold">the bucket</text>
+<text x="530" y="45" fill="#5f687d" font-size="10.5">drag rises as lift demand climbs</text>
+<text x="560" y="272" fill="#1d2534" font-size="11.5">C&#8348; (drag)</text>
+<text x="426" y="145" fill="#1d2534" font-size="11.5" transform="rotate(-90 426 145)">C&#8343;</text>
+</svg><figcaption>The two plots that matter. Left: lift vs angle — slope, C<sub>L</sub>max, and how sharply it lets go. Right: the drag polar — cruise inside the bucket, and the bucket is narrow at low Re.</figcaption></figure>
+<p>Four numbers to pull from every polar:</p>
+<table>
+<tr><th>Number</th><th>Where</th><th>What it tells you</th></tr>
+<tr><td><b>Lift-curve slope</b></td><td>linear part of C<sub>L</sub>&ndash;&alpha;</td><td>2-D theory says &asymp;0.11/deg; your <i>wing</i> gets less — chapter 3&rsquo;s finite-wing correction gives &asymp;0.084/deg at AR 6.5</td></tr>
+<tr><td><b>C<sub>L</sub>max</b></td><td>peak of the curve</td><td>sets stall speed. Cross-check the course value 1.1 — a wing loses a little on the section&rsquo;s 2-D value</td></tr>
+<tr><td><b>C<sub>d</sub> at cruise C<sub>L</sub></b></td><td>drag polar at C<sub>L</sub> &asymp; 0.5</td><td>is your cruise point inside the bucket? If not, the section is wrong for the mission</td></tr>
+<tr><td><b>C<sub>m</sub></b></td><td>moment column</td><td>the tail&rsquo;s bill. A NACA 2412 runs &asymp;&minus;0.05; the S1223 class runs near &minus;0.25 — five times the trim load, exactly chapter 5&rsquo;s warning in numbers</td></tr>
+</table>
+
+<h2>Low-Re honesty: where XFOIL flatters you</h2>
+<div class="warn">Three systematic lies to expect at model Reynolds numbers. <b>1)</b> C<sub>L</sub>max
+comes out optimistic — often 10&ndash;15% above wind-tunnel truth at 100&ndash;200k, so derate it before
+believing a stall speed. <b>2)</b> Laminar separation bubbles: XFOIL models them, but their drag penalty is
+sensitive to <code>N<sub>crit</sub></code> — the transition parameter. The default 9 represents a calm tunnel;
+a hand-launched model in real air behaves closer to 7&ndash;9, a rough/turbulated wing closer to 4&ndash;5.
+Run both and treat the spread as your uncertainty. <b>3)</b> Anything past the stall is fiction — panel
+methods cannot do separated flow.</div>
+<p>The professional habit: compute in XFOIL, then anchor against the nearest UIUC measurement. Example
+anchor: the S1223 was <i>measured</i> at C<sub>L</sub>max &asymp; 2.2 at Re 200k (Selig &amp; Guglielmo&rsquo;s
+original paper) — if your XFOIL run says 2.4&ndash;2.5, you are seeing lie #1, now calibrated.</p>
+<details class="yt"><summary><span class="yl">Your turn</span>Your XFOIL run of the trainer&rsquo;s Clark&nbsp;Y at Re 185k reports C<sub>L</sub>max = 1.32. What stall speed should you actually plan for?</summary><div class="ans">Derate the 2-D number &asymp;10&ndash;15% for XFOIL optimism <i>and</i> a little more for 3-D wing effects — landing near the course&rsquo;s C<sub>L</sub>max 1.1 is honest. V<sub>s</sub> = &radic;(2W/&rho;SC<sub>L</sub>max): with 1.1 you get the familiar 8.1 m/s; believing 1.32 would have promised 7.4 m/s and delivered a surprise flare. Plan with the derated number; enjoy any bonus.</div></details>
+
+<h2>The analysis ladder — XFOIL, XFLR5, CFD</h2>
+<p>This section is the sixth planned volume folded into its natural home: <i>when is each level of
+analysis worth the effort?</i></p>
+<table>
+<tr><th>Rung</th><th>Tool</th><th>Models</th><th>Cost</th><th>Worth it when&hellip;</th></tr>
+<tr><td>1</td><td><b>Hand rules</b> (ch 2&ndash;4)</td><td>lift equation, tail volumes, static margin</td><td>minutes</td><td>always — every design starts and sanity-ends here</td></tr>
+<tr><td>2</td><td><b>XFOIL</b></td><td>2-D section, viscous</td><td>an evening</td><td>choosing between sections, checking a cruise point, unusual Re</td></tr>
+<tr><td>3</td><td><b>XFLR5</b></td><td>your XFOIL polars applied to the whole 3-D aircraft (vortex-lattice / panel)</td><td>a weekend</td><td>induced drag, span loading, and a second opinion on the neutral point — compare it against chapter 3&rsquo;s screening estimate</td></tr>
+<tr><td>4</td><td><b>RANS CFD</b> (OpenFOAM&hellip;)</td><td>full Navier&ndash;Stokes, separated flow</td><td>weeks + meshing skill</td><td>almost never for a conventional model. Blended wings, ducted installations, prop&ndash;airframe interaction — maybe</td></tr>
+</table>
+<div class="tip"><b>The honest hierarchy:</b> a trainer designed on rungs 1&ndash;2 and verified with a
+wattmeter and a maiden flight beats a trainer &ldquo;optimised&rdquo; on rung 4 by someone who never measured
+anything. Escalate only when a <i>specific question</i> resists the rung you are on — XFLR5&rsquo;s VLM
+knows nothing about stall, and CFD answers arrive slower than a build-and-fly experiment at model scale.</div>
+<details class="yt"><summary><span class="yl">Your turn</span>XFLR5 places your trainer&rsquo;s neutral point at 44% of chord; chapter 3&rsquo;s screening formula said 46%. Which do you trust, and does the difference matter?</summary><div class="ans">They agree to 2% c&#772; — that <i>is</i> agreement for screening tools (the fuselage, ignored by both to different degrees, moves the NP more than this). With the CG at 25%, static margin is 19&ndash;21% either way: same airplane, same conservative maiden. Trust the more conservative number and move on to building.</div></details>
+
+  <div class="caveat"><b>Accuracy note</b>
+This guide was drafted with AI assistance and reviewed by a human, but it will contain mistakes.
+Treat every number as a starting point, not gospel: verify against the linked references and your
+own measurements before you cut material or fly. Spotted an inaccuracy? Please open an issue or
+pull request at <a href="https://github.com/akanwar/learnrcfixedwing">github.com/akanwar/learnrcfixedwing</a>
+— corrections are exactly why this lives on GitHub.</div>
+
+  <div class="pager"><a href="chapter-07.html"><span class="lab">&larr; Core course</span>Chapter 7 — Systems, Test &amp; Fly</a><a class="next" href="deepdive-02-propulsion.html"><span class="lab">Next &rarr;</span>Deep Dive 2 — Propulsion &amp; Prop Matching</a></div>
+  <div class="foot">Content CC BY 4.0 &middot; Code MIT &middot; <a href="https://github.com/akanwar/learnrcfixedwing">github.com/akanwar/learnrcfixedwing</a></div>
+</div>
+</div>
+</body>
+</html>

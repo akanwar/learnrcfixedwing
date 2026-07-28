@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><rect width=%27100%27 height=%27100%27 rx=%2718%27 fill=%27%2314223f%27/><path d=%27M50 18 L56 34 L88 46 L88 56 L56 52 L54 74 L66 82 L66 88 L50 84 L34 88 L34 82 L46 74 L44 52 L12 56 L12 46 L44 34 Z%27 fill=%27%232a7de1%27/></svg>">
+<title>Deep Dive 2 — Electric Propulsion &amp; Propeller Matching — Learn R/C Fixed Wing</title>
+<meta name="description" content="Kv, pitch speed, static thrust from momentum theory, prop charts, battery C-ratings, and the wattmeter verification loop.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="hangar.css">
+</head>
+<body>
+<div class="sheet">
+<div class="frame">
+  <div class="hqbar"><a href="index.html">&#8962; The Hangar</a><div class="doc">DEEP DIVE 2 · PROPULSION</div></div>
+  <div class="kicker">Deep dive 2 · stretch material</div>
+  <h1>Electric Propulsion &amp; Propeller Matching</h1>
+  <p class="lead">Chapter 4 decided the trainer needs 225 W. This volume is about making those watts real: choosing the motor, prop and battery as a matched system — with numbers you can check before anything spins.</p>
+
+<h2>Follow the watts</h2>
+<p>Battery &rarr; ESC &rarr; motor &rarr; prop &rarr; air. Every stage taxes you: a healthy hobby outrunner
+converts roughly 75&ndash;80% of electrical watts to shaft watts; the prop converts shaft watts to thrust
+at an efficiency that depends entirely on how well you matched it. The trainer&rsquo;s chain, computed
+before buying anything:</p>
+<div class="eq">225 W &divide; 11.1 V = <b>20.3 A</b> &nbsp;&middot;&nbsp; ESC &ge; 20.3 &times; 1.35 &rarr; <b>30 A</b> &nbsp;&middot;&nbsp; 2200 mAh at 20.3 A = <b>9.2C</b> &mdash; any honest 25C pack loafs</div>
+
+<h2>Kv, decoded</h2>
+<p>Kv is not a power rating (chapter 7&rsquo;s warning) — it is <b>unloaded rpm per volt</b>. Load it with a
+prop and rpm sags to roughly 75&ndash;85% of Kv &times; V. That single fact sizes the whole system:</p>
+<div class="eq">1000 Kv &times; 11.1 V &times; 0.80 &asymp; <b>8&thinsp;900 rpm</b> under load</div>
+<p>Now the prop&rsquo;s pitch turns rpm into a speed. A 10&times;6 &ldquo;screws forward&rdquo; 6 inches per
+turn (chapter 7):</p>
+<div class="eq">pitch speed = 8&thinsp;900/60 &times; 0.152 m &asymp; <b>22.6 m/s</b></div>
+<p>Check it against the airframe — this is the matching step most people skip:</p>
+<table>
+<tr><th>Rule of thumb</th><th>Trainer numbers</th><th>Verdict</th></tr>
+<tr><td>Pitch speed &asymp; 2.5&ndash;3 &times; stall speed</td><td>2.5&ndash;3 &times; 8.1 = 20&ndash;24 m/s vs 22.6</td><td>&#10003; right in the slot</td></tr>
+<tr><td>Cruise &asymp; half of pitch speed</td><td>12 / 22.6 = 53%</td><td>&#10003; relaxed cruise throttle</td></tr>
+<tr><td>Thrust &asymp; 0.6&ndash;0.8 &times; weight for a trainer</td><td>computed below: 0.72</td><td>&#10003;</td></tr>
+</table>
+<p class="dim">The three rules agreeing is not luck — it is what &ldquo;matched&rdquo; means. A 2200 Kv motor
+on the same 3S would demand a tiny 6&times;4 prop screaming at 20k rpm: same watts, worse efficiency, no
+climb authority. High Kv + small prop suits fast models; low Kv + big prop suits everything else.</p>
+
+<h2>Static thrust from first principles</h2>
+<p>A propeller is a momentum machine: it throws a column of air backwards. Ideal momentum theory gives the
+best any disc can do; real props deliver about 70% of it (their &ldquo;figure of merit&rdquo;). For the
+trainer&rsquo;s 10-inch prop:</p>
+<div class="eq">disc area A = &pi;(0.127)&sup2; = 0.0507 m&sup2; &nbsp;&middot;&nbsp; shaft power &asymp; 225 &times; 0.75 = 169 W<br>
+T<sub>ideal</sub> = (2 &rho; A P&sup2;)<sup>1/3</sup> = (2 &times; 1.225 &times; 0.0507 &times; 169&sup2;)<sup>1/3</sup> &asymp; 15.2 N<br>
+T<sub>static</sub> &asymp; 0.7 &times; 15.2 &asymp; <b>10.7 N &asymp; 1.09 kgf</b> &nbsp;&rarr;&nbsp; thrust/weight = 10.7 / 14.7 = <b>0.72</b></div>
+<p>Which is exactly the 0.6&ndash;0.8 a trainer wants: enough to climb out of trouble, not enough to
+tempt vertical nonsense on a maiden.</p>
+<div class="tip"><b>Why diameter beats pitch:</b> absorbed power scales roughly with diameter to the
+<i>fourth</i> power at fixed rpm — one inch more prop (10&rarr;11) is a 1.46&times; power jump. And a
+bigger, slower disc accelerates more air more gently, which is aerodynamically cheaper: for climb and
+cruise efficiency, run the largest prop that clears the ground and load it with a low-Kv motor. Small
+fast props exist for speed, not efficiency.</div>
+<details class="yt"><summary><span class="yl">Your turn</span>Same 225 W through a 12-inch prop instead of the 10. What does momentum theory promise for static thrust — and what stops you from just fitting a 14?</summary><div class="ans">A grows by (12/10)&sup2; = 1.44&times;; T scales with A<sup>1/3</sup> at fixed power, so &times;1.44<sup>1/3</sup> &asymp; 1.13 &rarr; &asymp; 12.1 N and T/W &asymp; 0.82. The stops: ground clearance, the motor&rsquo;s rpm sagging below the pitch-speed rule (the 12&times;6 loads the motor far harder — check amps!), and the d&#8308; law turning &ldquo;just one more inch&rdquo; into an ESC fire. Change one variable, then re-measure.</div></details>
+
+<h2>The matching workflow</h2>
+<table>
+<tr><th>Step</th><th>Do</th><th>Trainer example</th></tr>
+<tr><td>1</td><td>Watts from mission (chapter 4)</td><td>150 W/kg &times; 1.5 kg = 225 W</td></tr>
+<tr><td>2</td><td>Motor class from watts — hobby outrunners carry roughly 3 W per gram of motor</td><td>225/3 &asymp; 75 g class (a &ldquo;2814&rdquo;-size outrunner)</td></tr>
+<tr><td>3</td><td>Kv from pitch-speed target on your cell count</td><td>need &asymp;22 m/s on 3S with a 6-in pitch &rarr; &asymp;8&ndash;9k rpm &rarr; 900&ndash;1100 Kv</td></tr>
+<tr><td>4</td><td>Prop from the <b>manufacturer&rsquo;s chart</b> for that motor — the chart is measured; formulas are estimates</td><td>chart row: 10&times;6, 3S, &asymp;20 A, &asymp;220 W &#10003;</td></tr>
+<tr><td>5</td><td>Verify with a wattmeter: amps, watts, temperature</td><td>restrained aircraft, cowling on, 30 s full throttle — motor &lt; &asymp;60 &deg;C</td></tr>
+<tr><td>6</td><td>Adjust one inch at a time</td><td>too cold + slow climb &rarr; 11&times;5.5; too hot &rarr; 9&times;6</td></tr>
+</table>
+<div class="warn">The chart beats the math because props vary: two &ldquo;10&times;6&rdquo; props from
+different makers can load a motor 15% apart. The math tells you which chart row to start at and whether a
+measurement is <i>plausible</i> — the wattmeter has the final word. Chapter 7&rsquo;s bench-test safety
+rules apply to every run.</div>
+
+<h2>Batteries without the marketing</h2>
+<p>The trainer draws 9.2C from its 2200 mAh pack — <i>any</i> genuine 25C cell delivers that without
+noticeable sag. C-ratings on the label are marketing (chapter 7: &ldquo;a claim, not a promise&rdquo;);
+what you can verify is voltage under load on the wattmeter: a healthy 3S should hold above &asymp;10.5 V
+at full throttle. Sagging under 9.9 V (3.3 V/cell) under this mild load means a tired or dishonest pack.
+Endurance math stays as chapter 4 computed it: 8.8 min mixed throttle, 5.2 min wide open.</p>
+<details class="yt"><summary><span class="yl">Your turn</span>Your wattmeter reads 26 A and 275 W on the &ldquo;same&rdquo; 10&times;6 from another maker. What do you do — and what was the clue that this could happen?</summary><div class="ans">That prop loads 22% over plan — beyond the ESC&rsquo;s comfortable margin (26 &times; 1.35 &asymp; 35 A &gt; 30) and the motor&rsquo;s 3 W/g class. Drop to a 9&times;6 or the original brand, and re-measure. The clue: step 4&rsquo;s warning — prop brands differ by double-digit percentages, which is exactly why measurement is a step and not a suggestion.</div></details>
+
+  <div class="caveat"><b>Accuracy note</b>
+This guide was drafted with AI assistance and reviewed by a human, but it will contain mistakes.
+Treat every number as a starting point, not gospel: verify against the linked references and your
+own measurements before you cut material or fly. Spotted an inaccuracy? Please open an issue or
+pull request at <a href="https://github.com/akanwar/learnrcfixedwing">github.com/akanwar/learnrcfixedwing</a>
+— corrections are exactly why this lives on GitHub.</div>
+
+  <div class="pager"><a href="deepdive-01-xfoil.html"><span class="lab">&larr; Previous</span>Deep Dive 1 — XFOIL Workflow</a><a class="next" href="deepdive-03-structures.html"><span class="lab">Next &rarr;</span>Deep Dive 3 — Structures &amp; Composites</a></div>
+  <div class="foot">Content CC BY 4.0 &middot; Code MIT &middot; <a href="https://github.com/akanwar/learnrcfixedwing">github.com/akanwar/learnrcfixedwing</a></div>
+</div>
+</div>
+</body>
+</html>
