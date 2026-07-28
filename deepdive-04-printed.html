@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><rect width=%27100%27 height=%27100%27 rx=%2718%27 fill=%27%2314223f%27/><path d=%27M50 18 L56 34 L88 46 L88 56 L56 52 L54 74 L66 82 L66 88 L50 84 L34 88 L34 82 L46 74 L44 52 L12 56 L12 46 L44 34 Z%27 fill=%27%232a7de1%27/></svg>">
+<title>Deep Dive 4 — 3D-Printed Fixed Wings — Learn R/C Fixed Wing</title>
+<meta name="description" content="LW-PLA wing structures with honest mass math: print orientation, single-perimeter skins, spar integration, and slicer settings that matter.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="hangar.css">
+</head>
+<body>
+<div class="sheet">
+<div class="frame">
+  <div class="hqbar"><a href="index.html">&#8962; The Hangar</a><div class="doc">DEEP DIVE 4 · 3D-PRINTED WINGS</div></div>
+  <div class="kicker">Deep dive 4 · stretch material</div>
+  <h1>3D-Printed Fixed Wings</h1>
+  <p class="lead">A printer turns airfoil coordinates into ribs-and-skin structure overnight — perfect sections, repeatable crashes-and-reprints. The catch is mass, and the fix is a material trick plus a division of labour with a carbon spar. Numbers first, as always.</p>
+
+<h2>The material trick: LW-PLA</h2>
+<p>Ordinary PLA is dense (1.24 g/cm&sup3;) — a solid-skinned PLA wing sinks the mass budget instantly.
+<b>LW-PLA</b> (&ldquo;lightweight&rdquo;, foaming PLA) contains an agent that expands the extruded bead
+2&ndash;3&times; at around 230&ndash;260 &deg;C. You compensate by printing at reduced flow
+(&asymp;40&ndash;60%), and the cured wall lands at an <i>effective</i> density around
+<b>0.5&ndash;0.65 g/cm&sup3;</b> — half of regular PLA. Every brand foams differently with temperature,
+so the first print is always a calibration: a single-wall cube at each temperature step, measured and
+weighed, before any wing part.</p>
+
+<h2>Honest mass math for the trainer&rsquo;s wing</h2>
+<div class="eq">skin area &asymp; 2.05 &times; S = 2.05 &times; 33.2 dm&sup2; &asymp; 0.68 m&sup2;<br>
+single 0.5 mm wall at &asymp;0.6 g/cm&sup3; &rarr; 0.68 &times; 0.0005 &times; 600 &asymp; <b>204 g</b> of skin<br>
++ &asymp;25% for internal ribs, joins and the spar pocket &rarr; <b>&asymp;255 g</b> printed wing</div>
+<p>A built-up balsa wing of this size finishes around 200&ndash;240 g covered — so the printed wing is
+competitive but a shade heavier. All-up mass drifts to &asymp;1550 g and wing loading from 45 to
+<b>&asymp;46 g/dm&sup2;</b>: still squarely in the trainer band (chapter 2&rsquo;s table absorbs it).
+The honest conclusion cuts both ways: printing suits trainers and sport models fine, and suits
+<i>floaters</i> badly — you cannot print your way to 25 g/dm&sup2;.</p>
+<details class="yt"><summary><span class="yl">Your turn</span>Run the same skin math for the park-flyer preset (600 g, S &asymp; 18.6 dm&sup2;). Does a printed wing still make sense?</summary><div class="ans">Skin area &asymp; 2.05 &times; 0.186 = 0.38 m&sup2; &rarr; at the trainer recipe (0.5 mm, 0.6 g/cm&sup3;) that is &asymp;<b>114 g</b> of skin &mdash; call it &asymp;140 g with ribs &mdash; where a built-up park-flyer wing finishes nearer 50&ndash;60 g. Even at the aggressive limit (0.4 mm wall, maximum foam &asymp;0.5 g/cm&sup3;) the skin is &asymp;76 g. The wall has a minimum thickness whether the model is big or small, so the smaller the aircraft, the worse the printed skin&rsquo;s fixed cost: loading jumps 32 &rarr; &asymp;37 g/dm&sup2; and the &ldquo;park flyer&rdquo; becomes a small sport model. Print the trainer; build the floater.</div></details>
+
+<h2>Division of labour: skin for shape, spar for bending</h2>
+<p>Printed parts have a grain: the bond <i>between</i> layers is the weak direction — plan on
+50&ndash;70% of in-plane strength, worse with heavy foaming. Wing sections print standing up (span along
+the printer&rsquo;s Z), which puts the layer joints exactly where root bending wants to tear the wing
+apart. So printed-wing design splits the job the way Deep Dive 3&rsquo;s I-beam logic says to:</p>
+<table>
+<tr><th>Job</th><th>Carried by</th><th>Why it works</th></tr>
+<tr><td>Bending (the 13.8 N&middot;m from DD3)</td><td><b>Carbon tube spar</b> in a printed pocket — the same 10&times;8 mm tube DD3 sized at SF 2.5</td><td>continuous fibre across every section joint; the print never sees the cap loads</td></tr>
+<tr><td>Torsion + shape</td><td>the closed printed skin</td><td>a closed cell is a printed D-box all the way around; layer bonds carry shear, which they tolerate far better than tension</td></tr>
+<tr><td>Local dents, handling</td><td>wall thickness + internal ribs the slicer builds</td><td>perfect airfoil accuracy is the printer&rsquo;s one free lunch — chapter 5&rsquo;s low-Re sections love an accurate leading edge</td></tr>
+</table>
+
+<h2>Orientation, sections and joints</h2>
+<figure><svg viewBox="0 0 760 240" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A wing split into four printable sections threaded on a carbon tube spar; one section shown standing on a print bed with layer lines horizontal">
+<g stroke="#2a7de1" stroke-width="2" fill="#eef3fb">
+<path d="M40,110 L180,102 L180,148 L40,152 Z"/><path d="M190,101 L330,95 L330,144 L190,147 Z"/><path d="M340,94 L480,90 L480,140 L340,143 Z"/><path d="M490,89 L620,86 L620,136 L490,139 Z"/>
+</g>
+<line x1="30" y1="126" x2="640" y2="112" stroke="#1d2534" stroke-width="6" stroke-linecap="round"/>
+<text x="330" y="70" fill="#1d2534" font-size="12" font-weight="bold">carbon tube runs through every section — the only bending member</text>
+<line x1="330" y1="76" x2="330" y2="106" stroke="#1d2534" stroke-width="1"/>
+<text x="185" y="176" fill="#2a7de1" font-size="11.5">sections &asymp; printer height, joints at low-moment stations</text>
+<rect x="648" y="60" width="100" height="10" fill="#5f687d"/>
+<text x="698" y="84" fill="#5f687d" font-size="10.5" text-anchor="middle">print bed</text>
+<path d="M666,60 L666,20 C666,14 672,10 680,10 L716,10 C724,10 730,14 730,20 L730,60 Z" fill="#eef3fb" stroke="#d96f24" stroke-width="2"/>
+<g stroke="#d96f24" stroke-width="0.7" opacity="0.7">
+<line x1="667" y1="52" x2="729" y2="52"/><line x1="667" y1="44" x2="729" y2="44"/><line x1="667" y1="36" x2="729" y2="36"/><line x1="667" y1="28" x2="729" y2="28"/><line x1="667" y1="20" x2="729" y2="20"/>
+</g>
+<text x="698" y="102" fill="#d96f24" font-size="10.5" text-anchor="middle" font-weight="bold">section stands up:</text>
+<text x="698" y="116" fill="#d96f24" font-size="10.5" text-anchor="middle">span = Z, layers &perp; span</text>
+</svg><figcaption>Sections stand on the bed (no internal supports, seam hidden at the trailing edge), thread onto the spar, and glue face-to-face. The tube makes the joints almost unloaded in bending.</figcaption></figure>
+<p>Practical rules: split the span into sections that fit your printer&rsquo;s height; put joints away
+from the root where the bending moment peaks (DD3&rsquo;s M curve falls toward the tips); align sections
+with the spar tube itself plus a small printed pin or tab; glue with medium CA or 30-minute epoxy on
+clean, lightly-sanded faces. Put the slicer&rsquo;s seam on the trailing edge, and orient any cosmetic
+sanding <i>along</i> the airflow — through-sanding a 0.5 mm foamed wall is easy, so resist the urge to
+polish.</p>
+
+<h2>The slicer recipe</h2>
+<table>
+<tr><th>Setting</th><th>Value</th><th>Why</th></tr>
+<tr><td>Perimeters</td><td><b>1</b>, wall 0.5&ndash;0.6 mm</td><td>the entire skin is one extrusion wide — this is where all the mass hides</td></tr>
+<tr><td>Infill / top / bottom</td><td><b>0% / none / none</b></td><td>the airfoil is hollow; ribs are modelled in the part, not the slicer</td></tr>
+<tr><td>Temperature</td><td>230&ndash;260 &deg;C per your calibration cube</td><td>sets foaming, hence density — the single most important number</td></tr>
+<tr><td>Flow</td><td>40&ndash;60%, from the cube</td><td>compensates the expansion; too high = heavy, too low = pinholes</td></tr>
+<tr><td>Speed &amp; cooling</td><td>slow (&asymp;25&ndash;40 mm/s), fan low/off</td><td>foam needs heat and time; cooling collapses it</td></tr>
+<tr><td>Vase (spiral) mode</td><td>where the part allows</td><td>eliminates the seam entirely on simple sections</td></tr>
+</table>
+<div class="warn">Two failure modes to expect and shrug off: a section that delaminates in a hard landing
+(reprint it — that is the whole point: 40 g of filament and tonight&rsquo;s print queue), and UV + heat
+softening — LW-PLA sags in a hot car faster than a covered balsa wing ever will. Store wings out of
+parked-car heat, and treat a summer-noon tarmac like the enemy it is.</div>
+<details class="yt"><summary><span class="yl">Your turn</span>Your calibration cube weighs 42% of what solid-flow PLA would. Your slicer is set to 55% flow. What happens to the wing — and which direction do you adjust?</summary><div class="ans">The filament is foaming more than your flow setting assumes (it only &ldquo;needs&rdquo; &asymp;42%), so at 55% you are extruding &asymp;30% too much material: a heavier wing (the 204 g skin becomes &asymp;265 g) with bulging over-extruded walls. Drop flow toward &asymp;42&ndash;45% and re-print the cube to confirm. The cube is cheap; the wing is not.</div></details>
+
+  <div class="caveat"><b>Accuracy note</b>
+This guide was drafted with AI assistance and reviewed by a human, but it will contain mistakes.
+Treat every number as a starting point, not gospel: verify against the linked references and your
+own measurements before you cut material or fly. Spotted an inaccuracy? Please open an issue or
+pull request at <a href="https://github.com/akanwar/learnrcfixedwing">github.com/akanwar/learnrcfixedwing</a>
+— corrections are exactly why this lives on GitHub.</div>
+
+  <div class="pager"><a href="deepdive-03-structures.html"><span class="lab">&larr; Previous</span>Deep Dive 3 — Structures &amp; Composites</a><a class="next" href="deepdive-05-configurations.html"><span class="lab">Next &rarr;</span>Deep Dive 5 — Other Configurations</a></div>
+  <div class="foot">Content CC BY 4.0 &middot; Code MIT &middot; <a href="https://github.com/akanwar/learnrcfixedwing">github.com/akanwar/learnrcfixedwing</a></div>
+</div>
+</div>
+</body>
+</html>

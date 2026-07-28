@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><rect width=%27100%27 height=%27100%27 rx=%2718%27 fill=%27%2314223f%27/><path d=%27M50 18 L56 34 L88 46 L88 56 L56 52 L54 74 L66 82 L66 88 L50 84 L34 88 L34 82 L46 74 L44 52 L12 56 L12 46 L44 34 Z%27 fill=%27%232a7de1%27/></svg>">
+<title>Deep Dive 5 — Gliders, Flying Wings, Biplanes &amp; Other Shapes — Learn R/C Fixed Wing</title>
+<meta name="description" content="How the sizing rules change for gliders, flying wings, V-tails, biplanes and canards — with worked numbers for each.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=IBM+Plex+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="hangar.css">
+</head>
+<body>
+<div class="sheet">
+<div class="frame">
+  <div class="hqbar"><a href="index.html">&#8962; The Hangar</a><div class="doc">DEEP DIVE 5 · CONFIGURATIONS</div></div>
+  <div class="kicker">Deep dive 5 · stretch material</div>
+  <h1>Gliders, Flying Wings, Biplanes &amp; Other Shapes</h1>
+  <p class="lead">Nothing in chapters 1&ndash;7 was trainer-specific — the same physics runs every shape. What changes per configuration is which term dominates. This volume walks the family tree with one worked number for each branch.</p>
+
+<h2>Gliders: the mission is efficiency itself</h2>
+<p>Delete the motor and the design problem becomes pure aerodynamics: minimum sink for thermals, best
+glide for distance. The Math Shelf&rsquo;s drag polar gives the ceiling directly:</p>
+<div class="eq">L/D<sub>max</sub> = &frac12;&radic;(&pi;&middot;e&middot;AR / C<sub>D0</sub>)<br>
+trainer: &frac12;&radic;(&pi; &times; 0.8 &times; 6.5 / 0.035) &asymp; <b>11</b> &nbsp;&middot;&nbsp; glider (AR 10, e 0.85, clean C<sub>D0</sub> 0.02) &asymp; <b>18</b></div>
+<p>Every design choice follows from that formula: AR up (with Deep Dive 3&rsquo;s spar bill — root bending
+grows with span), parasite drag down (clean fuselage, folding prop), wing loading down to 20&ndash;30
+g/dm&sup2; so the circles stay slow and small. And one non-obvious trick: <b>ballast</b>. Adding weight
+does not change L/D&nbsp;— the polar is loading-independent&nbsp;— it just shifts the whole speed range
+faster. Competition pilots bolt lead in on windy days to penetrate, and drop it for weak-lift evenings.</p>
+
+<h2>Flying wings: stability without a tail</h2>
+<p>Chapter 3 said the tail keeps the CG&ndash;NP relationship honest. Remove the tail and you must buy
+pitch stability another way: <b>sweep + washout</b> (the twisted-down tips act as a tail a short lever
+behind the CG) or a <b>reflexed airfoil</b> on a straight &ldquo;plank&rdquo; (the upturned trailing edge
+does the same job in-section). Both cost a little lift and efficiency — there is no free tail.</p>
+<p>The bookkeeping change is that &ldquo;25% of the chord&rdquo; stops being one place: on a swept, tapered
+wing you must first find the <b>mean aerodynamic chord</b> and where it sits. For a swept wing with root
+chord c<sub>r</sub>, tip chord c<sub>t</sub>, taper &lambda; = c<sub>t</sub>/c<sub>r</sub>:</p>
+<div class="eq">MAC = &frac23; c<sub>r</sub> (1+&lambda;+&lambda;&sup2;)/(1+&lambda;) &nbsp;&middot;&nbsp; y<sub>MAC</sub> = (b/6)(1+2&lambda;)/(1+&lambda;) &nbsp;&middot;&nbsp; x<sub>LE,MAC</sub> = y<sub>MAC</sub> tan&Lambda;<sub>LE</sub></div>
+<figure><svg viewBox="0 0 760 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Half of a swept tapered flying wing with the mean aerodynamic chord drawn at its spanwise station and the CG range marked on it">
+<path d="M80,40 L80,130 L640,205 L640,155 Z" fill="#eef3fb" stroke="#2a7de1" stroke-width="2.5"/>
+<line x1="80" y1="40" x2="640" y2="155" stroke="#2a7de1" stroke-width="1" stroke-dasharray="3 4" opacity="0.6"/>
+<line x1="337" y1="93" x2="337" y2="184" stroke="#d96f24" stroke-width="3"/>
+<text x="348" y="132" fill="#d96f24" font-size="12" font-weight="bold">MAC = 245 mm at y = 275 mm</text>
+<line x1="80" y1="40" x2="80" y2="20" stroke="#5f687d" stroke-width="1"/>
+<line x1="337" y1="93" x2="337" y2="20" stroke="#5f687d" stroke-width="1"/>
+<g stroke="#5f687d" stroke-width="1.4"><line x1="80" y1="26" x2="337" y2="26"/></g>
+<text x="208" y="18" fill="#5f687d" font-size="11" text-anchor="middle">x<tspan font-size="8" dy="2">LE,MAC</tspan><tspan dy="-2"> = 122 mm (24&deg; sweep)</tspan></text>
+<circle cx="374" cy="119" r="5" fill="#c0392b"/>
+<circle cx="386" cy="122" r="5" fill="#c0392b" opacity="0.45"/>
+<text x="374" y="220" fill="#c0392b" font-size="12" font-weight="bold">CG at 15&ndash;20% MAC = 159&ndash;171 mm aft of the root LE</text>
+<line x1="374" y1="124" x2="374" y2="205" stroke="#c0392b" stroke-width="1.2" stroke-dasharray="4 4"/>
+<text x="118" y="58" fill="#1d2534" font-size="11.5">root 300 mm</text>
+<text x="574" y="150" fill="#1d2534" font-size="11.5">tip 180 mm</text>
+</svg><figcaption>The worked example: span 1.2 m, root 300 / tip 180, leading-edge sweep 24&deg;. Find the MAC, then balance on it — the root leading edge is not the datum that matters.</figcaption></figure>
+<div class="eq">Worked: &lambda; = 0.6 &rarr; MAC = <b>245 mm</b> at y = <b>275 mm</b>; LE of MAC sits 275&middot;tan&thinsp;24&deg; = <b>122 mm</b> aft of the root LE.<br>CG at 15&ndash;20% MAC &rarr; <b>159&ndash;171 mm</b> aft of the root leading edge.</div>
+<div class="warn">Two honest cautions. Washout on a swept wing is <i>structural stability equipment</i>, not
+a finishing touch — 3&ndash;4&deg; is typical, and a wing built without it will tuck. And the allowable CG
+range is narrower than a tailed model&rsquo;s (aim 15&ndash;20% MAC, sweep-and-twist dependent — the elevons&rsquo;
+short lever arm forgives little): sneak aft in 5 mm steps over many flights, never in one. Elevons mix
+aileron + elevator in the transmitter; start with low rates on both.</div>
+<details class="yt"><summary><span class="yl">Your turn</span>Your friend&rsquo;s plank (straight wing, reflexed section) balances fine at 15% MAC. Your swept wing won&rsquo;t settle at the &ldquo;same&rdquo; 15%. What did the sweep change?</summary><div class="ans">On the plank, MAC sits at the wing — x<sub>LE,MAC</sub> = 0, so &ldquo;15%&rdquo; measured from the root LE is correct as-is. Sweep moves the MAC 122 mm aft of the root LE in our example: measuring 15% from the root leading edge would put the CG &asymp;120 mm too far forward — a wing so nose-heavy the elevons run out of authority in the flare. Same rule, different datum: always construct the MAC first.</div></details>
+
+<h2>V-tails: two surfaces do two jobs</h2>
+<p>A V-tail replaces three surfaces with two, saving a little drag and weight at the cost of mixed
+controls (&ldquo;ruddervators&rdquo;) and coupled behaviour. The classic sizing rule: give the V the
+<i>same total area</i> as the horizontal + vertical tails it replaces, angled so the projections match:</p>
+<div class="eq">S<sub>V-tail</sub> = S<sub>h</sub> + S<sub>v</sub> = 640 + 300 = <b>940 cm&sup2;</b> &nbsp;&middot;&nbsp; dihedral &theta; = atan&radic;(S<sub>v</sub>/S<sub>h</sub>) = atan&radic;(300/640) &asymp; <b>34&deg;</b> from horizontal</div>
+<p class="dim">The trainer&rsquo;s tail volumes (chapter 3) survive unchanged — you are re-packaging the
+same stabilising power. Transmitters mix ruddervators natively; expect a touch less yaw bite and slightly
+odd knife-edge behaviour, which is why trainers keep the conventional cross.</p>
+
+<h2>Biplanes: span in half the space</h2>
+<p>Two wings fit a hangar-limited span. The physics tax is <b>interference</b>: each wing flies in the
+other&rsquo;s downwash, so two wings deliver roughly 0.85&ndash;0.9 of their isolated lift capability
+(Munk&rsquo;s classic result — improving as the <b>gap</b> grows; keep it at least one chord). Practical
+recipe: size total area with chapter 2&rsquo;s wing-loading table plus &asymp;10&ndash;15% to cover
+interference, keep gap &ge; 1 chord, add a little <b>stagger</b> (upper wing forward) for pilot view and
+gentler stall, and budget grams for the cabane and interplane struts — the biplane&rsquo;s real cost is
+rigging weight and drag, which is why it suits aerobats (roll inertia!) more than trainers.</p>
+
+<h2>Canards: the tail that flies first</h2>
+<p>Put the small surface ahead of the wing and it <i>lifts</i> instead of pushing down — seductive on
+paper. The catch is certification-grade: for a canard to be safe, the <b>front surface must always stall
+before the main wing</b> (higher loading and incidence up front), which means the main wing can never
+reach its own C<sub>L</sub>max — you pay in landing speed for the tidy stall. CG range is tight, and the
+&ldquo;tail volume&rdquo; bookkeeping runs with reversed signs. File under: second airplane, not first.</p>
+
+<h2>Which shape for which mission</h2>
+<table>
+<tr><th>Mission</th><th>Shape that earns it</th><th>The dominating term</th></tr>
+<tr><td>Learn to fly</td><td>Conventional high-wing (chapters 1&ndash;7)</td><td>forgiveness: big tail volumes, dihedral, slow stall</td></tr>
+<tr><td>Stay up forever</td><td>Glider</td><td>L/D = f(AR, C<sub>D0</sub>) — and the spar that AR demands</td></tr>
+<tr><td>Slope soaring, backpack size</td><td>Flying wing</td><td>MAC construction + washout discipline; crash-cheap</td></tr>
+<tr><td>Aerobatics in a small span</td><td>Biplane</td><td>area without span; accept the interference tax</td></tr>
+<tr><td>Sleek cruiser</td><td>V-tail conventional</td><td>same volumes, repackaged</td></tr>
+<tr><td>Curiosity that bites</td><td>Canard</td><td>front surface must stall first — always</td></tr>
+</table>
+<p class="dim">The <a href="designer.html">Design Calculator</a> assumes a conventional tail; for these
+shapes use its wing and power sections (still valid) and do the stability bookkeeping from this page and
+chapter 3 by hand. XFLR5 (Deep Dive 1) is genuinely useful for flying wings — its vortex-lattice model
+handles sweep and twist properly.</p>
+<details class="yt"><summary><span class="yl">Your turn</span>Same 1.5 kg mass, same 45 g/dm&sup2; loading, but as a biplane with 0.85 interference efficiency. How much total wing area do you build?</summary><div class="ans">The aircraft still needs the lift of 33.2 dm&sup2; of <i>effective</i> wing; at 0.85 effectiveness you build 33.2 / 0.85 &asymp; <b>39 dm&sup2;</b> of actual area — but each of the two wings spans far less than 1.47 m: at AR 5 per wing, each panel spans just &radic;(5 &times; 0.195) &asymp; 0.99 m. A metre-wide box that flies like a metre-and-a-half monoplane — that is the biplane trade in one line.</div></details>
+
+  <div class="caveat"><b>Accuracy note</b>
+This guide was drafted with AI assistance and reviewed by a human, but it will contain mistakes.
+Treat every number as a starting point, not gospel: verify against the linked references and your
+own measurements before you cut material or fly. Spotted an inaccuracy? Please open an issue or
+pull request at <a href="https://github.com/akanwar/learnrcfixedwing">github.com/akanwar/learnrcfixedwing</a>
+— corrections are exactly why this lives on GitHub.</div>
+
+  <div class="pager"><a href="deepdive-04-printed.html"><span class="lab">&larr; Previous</span>Deep Dive 4 — 3D-Printed Wings</a><a class="next" href="index.html"><span class="lab">Back &rarr;</span>The Hangar</a></div>
+  <div class="foot">Content CC BY 4.0 &middot; Code MIT &middot; <a href="https://github.com/akanwar/learnrcfixedwing">github.com/akanwar/learnrcfixedwing</a></div>
+</div>
+</div>
+</body>
+</html>
