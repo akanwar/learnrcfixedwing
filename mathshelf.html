@@ -73,6 +73,32 @@ critical angle, possible at <b>any</b> airspeed. A symmetric section slides this
 <p>Air spills around the tips, the wing flies in its own downwash, and the lift vector tilts back &mdash;
 that tilt is induced drag. C<sub>L</sub> is <b>squared</b>: fly twice the lift coefficient, pay four times
 the drag. AR divides: long wings pay less. e &asymp; 0.7&ndash;0.85 for straight R/C wings.</p>
+<figure><svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The wing seen from behind: high-pressure air under the wing curls around each tip into a trailing vortex, and the air between the tips is washed downward">
+<defs>
+<marker id="iv-r" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#c0392b"/></marker>
+<marker id="iv-m" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#5f687d"/></marker>
+</defs>
+<text x="380" y="28" fill="#5f687d" font-size="11" font-weight="bold" letter-spacing="1" text-anchor="middle">THE WING FROM BEHIND</text>
+<rect x="170" y="138" width="420" height="13" rx="5" fill="#e8f1fd" stroke="#2a7de1" stroke-width="2.5"/>
+<circle cx="380" cy="145" r="12" fill="#f4f7fc" stroke="#1d2534" stroke-width="2.5"/>
+<text x="380" y="126" fill="#2a7de1" font-size="12.5" font-weight="bold" text-anchor="middle">&minus; low pressure above</text>
+<text x="380" y="174" fill="#c0392b" font-size="12.5" font-weight="bold" text-anchor="middle">+ high pressure below</text>
+<path d="M195,182 C128,176 116,102 180,108" fill="none" stroke="#c0392b" stroke-width="2.5" marker-end="url(#iv-r)"/>
+<path d="M172,118 C148,121 146,146 169,142" fill="none" stroke="#c0392b" stroke-width="1.7" opacity="0.65"/>
+<path d="M565,182 C632,176 644,102 580,108" fill="none" stroke="#c0392b" stroke-width="2.5" marker-end="url(#iv-r)"/>
+<path d="M588,118 C612,121 614,146 591,142" fill="none" stroke="#c0392b" stroke-width="1.7" opacity="0.65"/>
+<text x="122" y="62" fill="#c0392b" font-size="12" font-weight="bold">air curls around the tip &mdash;</text>
+<text x="122" y="77" fill="#c0392b" font-size="12" font-weight="bold">a trailing vortex</text>
+<line x1="160" y1="84" x2="152" y2="102" stroke="#c0392b" stroke-width="1.5"/>
+<line x1="300" y1="192" x2="300" y2="226" stroke="#5f687d" stroke-width="2.5" marker-end="url(#iv-m)"/>
+<line x1="380" y1="192" x2="380" y2="226" stroke="#5f687d" stroke-width="2.5" marker-end="url(#iv-m)"/>
+<line x1="460" y1="192" x2="460" y2="226" stroke="#5f687d" stroke-width="2.5" marker-end="url(#iv-m)"/>
+<text x="380" y="252" fill="#5f687d" font-size="12" font-weight="bold" text-anchor="middle">downwash &mdash; the wing flies in air it is already pushing down</text>
+<text x="380" y="284" fill="#5f687d" font-size="11.5" font-style="italic" text-anchor="middle">the wing pays a drag tax for making lift &mdash; that tax is induced drag</text>
+</svg><figcaption>Why lift must cost drag: pressure below, suction above &mdash; and at each tip the two sides
+meet. The spillage rolls up into trailing vortices, the span between them is washed downward, and the tilted-back
+lift vector is the C<sub>L</sub>&sup2;/(&pi;&middot;AR&middot;e) tax. Longer wings (higher AR) push the tips
+further apart and shrink the bill.</figcaption></figure>
 <p>The trainer at cruise (C<sub>L</sub> 0.5, AR 6.5, e 0.8): C<sub>D,i</sub> &asymp; 0.015. In a slow pass at
 C<sub>L</sub> 1.1: 0.074 &mdash; five times more. <b>Slow flight is draggy flight</b>: throttle up before you slow down.</p>
 <details class="yt"><summary><span class="yl">Your turn</span>Halve the aspect ratio to 3.25 (same area) at C<sub>L</sub> 0.6. What happens to C<sub>D,i</sub> &mdash; and why does an albatross have AR &asymp; 15?</summary><div class="ans">C<sub>D,i</sub> doubles (AR is in the denominator): 0.36/(&pi;&middot;3.25&middot;0.8) &asymp; 0.044. The albatross lives at high C<sub>L</sub> for hours without flapping &mdash; induced drag is its whole energy budget, so evolution bought the longest spar it could grow.</div></details>
@@ -91,7 +117,7 @@ C<sub>L</sub> 1.1: 0.074 &mdash; five times more. <b>Slow flight is draggy fligh
 <p>Below &asymp;10&#8309; the boundary layer stays laminar, separates early, and may not reattach:
 C<sub>L</sub>max drops, drag rises, stalls sharpen, and full-size airfoil data quietly stops being true.
 Use sections designed for low Re, keep leading edges accurate, and trust UIUC&rsquo;s low-speed tests over glossy polars.</p>
-<details class="yt"><summary><span class="yl">Your turn</span>Compute Re for the trainer&rsquo;s wing in a slow landing: V = 6 m/s, c = 0.226 m. Inside the trouble zone?</summary><div class="ans">Re &asymp; 68 000 &times; 6 &times; 0.226 &asymp; <b>92 000</b> &mdash; marginal, which is exactly why landings expose bad wings: the aircraft meets its lowest Reynolds number and its highest C<sub>L</sub> at the same moment, a metre off the grass.</div></details>
+<details class="yt"><summary><span class="yl">Your turn</span>Compute Re for the trainer&rsquo;s wing on final approach: V = 1.3&nbsp;V<sub>s</sub> &asymp; 10.5 m/s, c = 0.226 m. Inside the trouble zone?</summary><div class="ans">Re &asymp; 68 000 &times; 10.5 &times; 0.226 &asymp; <b>161 000</b> &mdash; above the &asymp;10&#8309; trouble zone, but with far less margin than cruise (&asymp;184k). The flare is the squeeze: as the plane slows toward V<sub>s</sub> (8.1 m/s), Re drops to &asymp;124 000 just as C<sub>L</sub> peaks &mdash; the lowest Reynolds number and the highest lift demand arrive at the same moment, a metre off the grass. That is why landings expose bad wings.</div></details>
   <div class="caveat"><b>Accuracy note</b>
 This guide was drafted with AI assistance and reviewed by a human, but it will contain mistakes.
 Treat every number as a starting point, not gospel: verify against the linked references and your

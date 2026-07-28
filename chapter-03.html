@@ -54,6 +54,8 @@ lever arm, normalised by the wing, is the <b>tail volume coefficient</b> &mdash;
 trainers to airliners.</p>
 <div class="eq">V<sub>h</sub> = S<sub>h</sub> l<sub>h</sub> / (S c&#772;) &nbsp;&nbsp;&rarr;&nbsp;&nbsp; S<sub>h</sub> = V<sub>h</sub> S c&#772; / l<sub>h</sub></div>
 <div class="eq">V<sub>v</sub> = S<sub>v</sub> l<sub>v</sub> / (S b) &nbsp;&nbsp;&rarr;&nbsp;&nbsp; S<sub>v</sub> = V<sub>v</sub> S b / l<sub>v</sub></div>
+<p class="dim">c&#772; is the <b>mean aerodynamic chord</b> (MAC) &mdash; the average chord the wing behaves as
+if it had. For the rectangular wings in this guide it is simply the wing chord.</p>
 <table>
 <tr><th></th><th>Broad range</th><th>Forgiving trainer start</th></tr>
 <tr><td>Horizontal V<sub>h</sub></td><td>0.30&ndash;0.60</td><td><b>0.50&ndash;0.60</b></td></tr>
@@ -111,6 +113,24 @@ let it drift behind and no amount of thumbs will save it.</p>
 <div class="warn">Balance the <b>complete, flight-ready</b> aircraft &mdash; battery, prop, hatch, landing gear
 installed. Move the battery or equipment before adding lead; a heavy tail needs a much bigger nose correction.</div>
 <details class="yt"><summary><span class="yl">Your turn</span>c&#772; = 226 mm and you balance the plane 12 mm ahead of the NP. Static margin? Safe for a maiden?</summary><div class="ans">SM = 12/226 &asymp; <b>5%</b> &mdash; flyable but nervous; too little for a first flight. Move the CG forward to 10&ndash;15% (23&ndash;34 mm ahead of the NP) and shift it aft only after calm, trimmed flights.</div></details>
+
+<h3>Estimating the neutral point &mdash; a screening formula</h3>
+<p>Everything above assumes you know where the NP is; here is a way to estimate it. For a conventional
+wing-plus-tail layout, the tail drags the NP aft of the wing&rsquo;s aerodynamic centre (&asymp;25% c&#772;)
+by an amount set by tail volume and how effectively the tail lifts:</p>
+<div class="eq">x<sub>NP</sub>/c&#772; &asymp; 0.25 + k V<sub>h</sub> / (1 + k S<sub>h</sub>/S)
+&nbsp;&nbsp;&middot;&nbsp;&nbsp; k = &eta;<sub>t</sub> (a<sub>t</sub>/a<sub>w</sub>)(1 &minus; d&epsilon;/d&alpha;)</div>
+<p>Here a = 2&pi;/(1+2/AR) is each surface&rsquo;s lift-curve slope, d&epsilon;/d&alpha; &asymp; 2a<sub>w</sub>/(&pi;&middot;AR)
+is how strongly the wing&rsquo;s downwash follows angle of attack, and &eta;<sub>t</sub> &asymp; 0.9 allows for the
+tail flying in slightly slowed air. For the chapter-4 trainer (wing AR 6.5, tail AR &asymp;4, V<sub>h</sub> 0.55,
+S<sub>h</sub>/S &asymp; 0.19): a<sub>w</sub> &asymp; 4.8, a<sub>t</sub> &asymp; 4.2, d&epsilon;/d&alpha; &asymp; 0.47,
+k &asymp; 0.42 &rarr; x<sub>NP</sub> &asymp; 0.25 + 0.23/1.08 &asymp; <b>0.46 c&#772;</b> &mdash; about 104 mm aft
+of the LE, so balancing at 25% c&#772; leaves SM &asymp; 21%.</p>
+<p class="dim">This is a screening estimate for the wing and tail alone. The fuselage and propwash typically pull
+the real NP a few percent of c&#772; <i>forward</i>, so treat the answer as an optimistic upper bound &mdash; which is
+exactly why the old &ldquo;balance at 25% c&#772;&rdquo; shortcut is conservative: even after the fuselage takes its cut,
+a trainer like this still holds more than the 10&ndash;15% target, and nose-stable errors are the recoverable kind.
+The <a href="designer.html">Design Calculator</a> runs this same estimate live as you move the sliders.</p>
 
 <h2>Stability &ne; authority</h2>
 <p>Stability is the tendency to return to trim after a disturbance. Authority is the muscle to command a

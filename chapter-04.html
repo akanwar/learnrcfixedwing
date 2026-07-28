@@ -36,18 +36,28 @@
 loading, stall speed, power, and CG.</p>
 
 <h2>Step 2 &mdash; size the wing</h2>
+<p class="dim"><i>Cover the result. Compute it yourself from the previous step, then check.</i></p>
 <div class="eq">S = 1500 / 45 = 33.3 dm&sup2; &nbsp;&middot;&nbsp; b = &radic;(6.5 &times; 0.333) = 1.47 m &nbsp;&middot;&nbsp; c = 0.333 / 1.47 = 226 mm</div>
 <p>Target 45 g/dm&sup2; at AR 6.5. With C<sub>L</sub>max &asymp; 1.1: V<sub>s</sub> &asymp; 8.1 m/s (29 km/h),
 approach &asymp; 10.5 m/s. Rectangular or mildly tapered planform for predictable building and stall.</p>
 
 <h2>Step 3 &mdash; size the tail and controls</h2>
+<p class="dim"><i>Cover the result. Compute it yourself from the previous step, then check.</i></p>
 <p>Tail arm 650 mm, V<sub>h</sub> = 0.55, V<sub>v</sub> = 0.04:</p>
 <div class="eq">S<sub>h</sub> &asymp; 640 cm&sup2; (470 &times; 135 mm) &nbsp;&middot;&nbsp; S<sub>v</sub> &asymp; 300 cm&sup2; (240 tall &times; 125 mm)</div>
 <p>Elevator &asymp;30% of tail chord (40 mm, full span). Rudder 35&ndash;40% of fin chord. Ailerons 45 mm
 &times; &asymp;350 mm each, outer half-wing, 1.5&ndash;2:1 differential.</p>
+<p class="dim">Cross-checking with the <a href="designer.html">Design Calculator</a>? It carries the same tail
+volumes but assumes its own tail aspect ratios (4 for the stab, 1.5 for the fin) and derives the arm from the
+span, so it draws a slightly different tail shape (&asymp;500 &times; 125 mm stab on a 662 mm arm). Same
+stability math, different geometry choice.</p>
 
 <h2>Step 4 &mdash; power and maiden setup</h2>
+<p class="dim"><i>Cover the result. Compute it yourself from the previous step, then check.</i></p>
 <div class="eq">P = 150 W/kg &times; 1.5 kg &asymp; 225 W &nbsp;&middot;&nbsp; I &asymp; 225 / 11.1 &asymp; 20.3 A &nbsp;&middot;&nbsp; endurance &asymp; 0.8 &times; 2.2 / 12 &times; 60 &asymp; 8.8 min</div>
+<p class="dim">That 12 A in the endurance line is a mixed-throttle <i>average</i>, not the 20.3 A full-throttle
+draw &mdash; held wide open, the same pack would be down to its 20% reserve in
+0.8 &times; 2.2 / 20.3 &times; 60 &asymp; 5.2 minutes.</p>
 <ul>
 <li>3S 2200 mAh; documented motor/prop combo near 220&ndash;240 W; ESC &ge;30 A with adequate BEC.</li>
 <li>Maiden CG conservative (10&ndash;15% SM); low rates; directions checked from behind the plane.</li>
